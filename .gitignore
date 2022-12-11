@@ -1,0 +1,8 @@
+.idea
+**/*pro.user*
+**/build-harbour*
+/test/cpp/*.o
+/test/cpp/moc_*
+/test/cpp/Makefile
+/test/cpp/DsbParserTests
+/test/cpp/.qmake.stash
