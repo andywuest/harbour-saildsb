@@ -19,7 +19,9 @@ SOURCES += src/harbour-saildsb.cpp
 DISTFILES += qml/harbour-saildsb.qml \
     qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
+    qml/pages/OverviewPage.qml \
     qml/pages/SecondPage.qml \
+    qml/pages/SettingsPage.qml \
     rpm/harbour-saildsb.changes.in \
     rpm/harbour-saildsb.changes.run.in \
     rpm/harbour-saildsb.spec \

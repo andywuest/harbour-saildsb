@@ -24,6 +24,27 @@
     </message>
 </context>
 <context>
+    <name>OverviewPage</name>
+    <message>
+        <source>Overview !!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hello Sailors Overview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About</source>
+        <extracomment>OverviewPage about menu item</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <extracomment>OverviewPage settings menu item</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SecondPage</name>
     <message>
         <source>Nested Page</source>
