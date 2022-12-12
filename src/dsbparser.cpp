@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QRegularExpression>
 #include <QUrl>
 
 DsbParser::DsbParser() {}
@@ -47,7 +48,7 @@ QJsonDocument DsbParser::parseHtmlToJson(QString planInHtml) {
   QStringList lines = tableNoClasses.split("<tr>");
 
   for (int i = 0; i < lines.size(); ++i) {
-    qDebug() << lines.at(i) << endl;
+    qDebug() << lines.at(i);
     QString line = lines.at(i);
     if (line.indexOf("<th") != -1) {
       continue;
@@ -70,15 +71,15 @@ QJsonDocument DsbParser::parseHtmlToJson(QString planInHtml) {
       entry.insert("newCourse", splitList.at(4));
       entry.insert("room", splitList.at(5));
 
-      qDebug() << " adding entry " << endl;
+      qDebug() << " adding entry ";
 
       resultArray.push_back(entry);
 
     } else {
-      qDebug() << "unexpected length of splitList !" << endl;
+      qDebug() << "unexpected length of splitList !";
     }
 
-    qDebug() << tokenLine << endl;
+    qDebug() << tokenLine;
   }
 
   // qDebug() << " Table : \n" << tableNoClasses;
