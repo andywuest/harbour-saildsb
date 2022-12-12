@@ -55,4 +55,22 @@
         <translation>Element</translation>
     </message>
 </context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <extracomment>SettingsPage settings title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User name</source>
+        <extracomment>SettingsPage section user name</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <extracomment>SettingsPage section password</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

@@ -18,6 +18,8 @@ SOURCES += src/harbour-saildsb.cpp
 
 DISTFILES += qml/harbour-saildsb.qml \
     qml/cover/CoverPage.qml \
+    qml/js/constants.js \
+    qml/js/functions.js \
     qml/pages/FirstPage.qml \
     qml/pages/OverviewPage.qml \
     qml/pages/SecondPage.qml \

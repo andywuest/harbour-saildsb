@@ -14,7 +14,7 @@ ApplicationWindow
         id: sailDsbSettings
         path: "/apps/harbour-saildsb/settings"
 
-        property string username
+        property string userName
         property string password
     }
 
