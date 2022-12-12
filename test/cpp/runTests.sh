@@ -9,5 +9,5 @@ find . -name "Makefile" -exec rm  {} \;
 
 qmake -o Makefile harbour-saildsb-tests.pro
 make
-env LC_ALL=de_DE.UTF-8 LC_NUMERIC=de_DE.utf8 ./DsbParserTests -o xmlresults.tap,tap
+env LC_ALL=de_DE.UTF-8 LC_NUMERIC=de_DE.utf8 ./DsbParserTests -junitxml -o junit.xml
 
