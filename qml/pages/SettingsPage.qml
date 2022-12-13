@@ -32,29 +32,22 @@ Page {
         Column {
             id: settingsColumn
             width: settingsPage.width
-            spacing: Theme.paddingLarge
+            spacing: Theme.paddingSmall
 
             PageHeader {
                 //: SettingsPage settings title
                 title: qsTr("Settings")
             }
 
-            // TODO does not loog good with section headers
             SectionHeader {
                 //: SettingsPage section user name
-                text: qsTr("User name")
+                text: qsTr("DSBMobile Credentials")
             }
 
             TextField {
                 id: userNameTextField
                 width: parent.width
                 text: sailDsbSettings.userName
-            }
-
-            // TODO does not loog good with section headers
-            SectionHeader {
-                //: SettingsPage section password
-                text: qsTr("Password")
             }
 
             TextField {

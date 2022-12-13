@@ -3,6 +3,11 @@
 #endif
 
 #include <sailfishapp.h>
+#include <QGuiApplication>
+#include <QQmlContext>
+#include <QQuickView>
+#include <QScopedPointer>
+#include <QtQml>
 
 int main(int argc, char *argv[]) {
   // SailfishApp::main() will display "qml/harbour-saildsb.qml", if you need
@@ -15,5 +20,16 @@ int main(int argc, char *argv[]) {
   //
   // To display the view, call "show()" (will show fullscreen on device).
 
-  return SailfishApp::main(argc, argv);
+//   return SailfishApp::main(argc, argv);
+
+    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
+    QScopedPointer<QQuickView> view(SailfishApp::createView());
+
+    QQmlContext *context = view.data()->rootContext();
+
+    context->setContextProperty("applicationVersion", QString(VERSION_NUMBER));
+
+    view->setSource(SailfishApp::pathTo("qml/harbour-saildsb.qml"));
+    view->show();
+    return app->exec();
 }
