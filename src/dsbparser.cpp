@@ -16,16 +16,17 @@ QJsonDocument DsbParser::parseHtmlToJson(QString planInHtml) {
 
   // qDebug() << planInHtml;
 
-
-  QRegularExpression dateRegExp("<div class=\"mon_title\">([\\.\\,\\w\\s]+)</div>");
+  QRegularExpression dateRegExp(
+      "<div class=\"mon_title\">([\\.\\,\\w\\s]+)</div>");
 
   QString matchedDate("-");
   QRegularExpressionMatch match = dateRegExp.match(planInHtml);
   if (match.hasMatch()) {
-      qDebug() << "date match : " << match.capturedStart(1);
-      qDebug() << "date match : " << match.capturedEnd(1);
-      matchedDate = planInHtml.mid(match.capturedStart(1), match.capturedEnd(1) - match.capturedStart(1));
-      qDebug() << "date match : " << matchedDate;
+    qDebug() << "date match : " << match.capturedStart(1);
+    qDebug() << "date match : " << match.capturedEnd(1);
+    matchedDate = planInHtml.mid(match.capturedStart(1),
+                                 match.capturedEnd(1) - match.capturedStart(1));
+    qDebug() << "date match : " << matchedDate;
   }
 
   QString tableDataOnly =

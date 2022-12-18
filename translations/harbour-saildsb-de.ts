@@ -100,6 +100,11 @@
         <source>Hour: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Refresh</source>
+        <extracomment>OverviewPage settings menu item</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SecondPage</name>

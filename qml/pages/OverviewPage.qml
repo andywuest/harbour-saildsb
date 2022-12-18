@@ -3,11 +3,37 @@ import Sailfish.Silica 1.0
 
 import "../components"
 
+import "../js/functions.js" as Functions
+
 Page {
     id: planPage
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
+
+    function connectSlots() {
+        Functions.log("[OverviewPage] connect - slots");
+        dsbMobileBackend.authTokenAvailable.connect(authTokenResultHandler);
+        dsbMobileBackend.requestError.connect(errorResultHandler);
+    }
+
+    function disconnectSlots() {
+        Functions.log("[OverviewPage] disconnect - slots");
+        dsbMobileBackend.authTokenAvailable.disconnect(authTokenResultHandler);
+        dsbMobileBackend.requestError.disconnect(errorResultHandler);
+    }
+
+    function authTokenResultHandler(result) {
+        Functions.log("[OverviewPage] auth token received - " + result);
+        // loading = false;
+    }
+
+    function errorResultHandler(result) {
+        Functions.log("[OverviewPage] error received - " + result);
+//        errorInfoLabel.visible = true;
+//        errorDetailInfoLabel.text = result;
+        // loading = false;
+    }
 
     // To enable PullDownMenu, place our content in a SilicaFlickable
     SilicaFlickable {
@@ -25,6 +51,11 @@ Page {
                 //: OverviewPage settings menu item
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
+            MenuItem {
+                //: OverviewPage settings menu item
+                text: qsTr("Refresh")
+                onClicked: dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password)
             }
         }
 
@@ -171,6 +202,9 @@ Page {
     }
 
     Component.onCompleted: {
+        connectSlots();
+        dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
+
         var testData = "[{\"data\":[{\"theClass\":\"7a\",\"course\":\"BK\",\"hour\":\"2\",\"newCourse\":\"Geo\",\"room\":\"123\",\"type\":\"Verlegung\"},{\"theClass\":\"9b, 9c\",\"course\":\"Sp w\",\"hour\":\"5 - 6\",\"newCourse\":\"---\",\"room\":\"---\",\"type\":\"Entfall\"},{\"theClass\":\"11\",\"course\":\"e2\",\"hour\":\"3 - 4\",\"newCourse\":\"e2\",\"room\":\"105\",\"type\":\"eigenver. Arbeiten\"}],\"date\":\"25.10.2022 Dienstag, Woche A\"}]";
         var planData = JSON.parse(testData);
         for (var i = 0; i < planData.length; i++) {
