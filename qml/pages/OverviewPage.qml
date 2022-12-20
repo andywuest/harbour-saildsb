@@ -2,11 +2,14 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 import "../components"
+import "../components/thirdparty"
 
 import "../js/functions.js" as Functions
 
 Page {
     id: planPage
+
+    property bool loading : false
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
@@ -23,16 +26,21 @@ Page {
         dsbMobileBackend.requestError.disconnect(errorResultHandler);
     }
 
+    function getAuthToken() {
+        loading = true;
+        dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
+    }
+
     function authTokenResultHandler(result) {
         Functions.log("[OverviewPage] auth token received - " + result);
-        // loading = false;
+        loading = false;
     }
 
     function errorResultHandler(result) {
         Functions.log("[OverviewPage] error received - " + result);
 //        errorInfoLabel.visible = true;
 //        errorDetailInfoLabel.text = result;
-        // loading = false;
+        loading = false;
     }
 
     // To enable PullDownMenu, place our content in a SilicaFlickable
@@ -55,7 +63,7 @@ Page {
             MenuItem {
                 //: OverviewPage settings menu item
                 text: qsTr("Refresh")
-                onClicked: dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password)
+                onClicked: getAuthToken();
             }
         }
 
@@ -203,7 +211,9 @@ Page {
 
     Component.onCompleted: {
         connectSlots();
-        dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
+
+        // TODO remove test data
+        getAuthToken();
 
         var testData = "[{\"data\":[{\"theClass\":\"7a\",\"course\":\"BK\",\"hour\":\"2\",\"newCourse\":\"Geo\",\"room\":\"123\",\"type\":\"Verlegung\"},{\"theClass\":\"9b, 9c\",\"course\":\"Sp w\",\"hour\":\"5 - 6\",\"newCourse\":\"---\",\"room\":\"---\",\"type\":\"Entfall\"},{\"theClass\":\"11\",\"course\":\"e2\",\"hour\":\"3 - 4\",\"newCourse\":\"e2\",\"room\":\"105\",\"type\":\"eigenver. Arbeiten\"}],\"date\":\"25.10.2022 Dienstag, Woche A\"}]";
         var planData = JSON.parse(testData);
@@ -216,6 +226,18 @@ Page {
                 planEntriesModel.append(dayData.data[j]);
             }
         }
+    }
+
+    LoadingIndicator {
+        id: loginLoadingIndicator
+        visible: loading
+        Behavior on opacity {
+            NumberAnimation {
+            }
+        }
+        opacity: loading ? 1 : 0
+        height: parent.height
+        width: parent.width
     }
 
 }

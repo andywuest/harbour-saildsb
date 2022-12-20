@@ -23,6 +23,7 @@ DISTFILES += qml/harbour-saildsb.qml \
     qml/components/RowSeparator.qml \
     qml/components/thirdparty/AboutDescription.qml \
     qml/components/thirdparty/AboutIconLabel.qml \
+    qml/components/thirdparty/LoadingIndicator.qml \
     qml/cover/CoverPage.qml \
     qml/js/constants.js \
     qml/js/functions.js \
@@ -31,8 +32,9 @@ DISTFILES += qml/harbour-saildsb.qml \
     qml/pages/OverviewPage.qml \
     qml/pages/SecondPage.qml \
     qml/pages/SettingsPage.qml \
+    qml/pages/icons/github.svg \
+    qml/pages/icons/paypal.svg \
     rpm/harbour-saildsb.changes.in \
-    rpm/harbour-saildsb.changes.run.in \
     rpm/harbour-saildsb.spec \
     rpm/harbour-saildsb.yaml \
     translations/*.ts \

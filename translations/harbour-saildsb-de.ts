@@ -61,6 +61,13 @@
     </message>
 </context>
 <context>
+    <name>LoadingIndicator</name>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OverviewPage</name>
     <message>
         <source>Overview !!</source>
