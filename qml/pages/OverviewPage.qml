@@ -10,6 +10,7 @@ Page {
     id: planPage
 
     property bool loading : false
+    property string authToken : ""
 
     // The effective value will be restricted by ApplicationWindow.allowedOrientations
     allowedOrientations: Orientation.All
@@ -17,12 +18,14 @@ Page {
     function connectSlots() {
         Functions.log("[OverviewPage] connect - slots");
         dsbMobileBackend.authTokenAvailable.connect(authTokenResultHandler);
+        dsbMobileBackend.plansAvailable.connect(plansResultHandler);
         dsbMobileBackend.requestError.connect(errorResultHandler);
     }
 
     function disconnectSlots() {
         Functions.log("[OverviewPage] disconnect - slots");
         dsbMobileBackend.authTokenAvailable.disconnect(authTokenResultHandler);
+        dsbMobileBackend.plansAvailable.disconnect(plansResultHandler);
         dsbMobileBackend.requestError.disconnect(errorResultHandler);
     }
 
@@ -31,8 +34,18 @@ Page {
         dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
     }
 
+    function getPlans() {
+        dsbMobileBackend.getPlans(authToken);
+    }
+
     function authTokenResultHandler(result) {
         Functions.log("[OverviewPage] auth token received - " + result);
+        authToken = result;
+        getPlans();
+    }
+
+    function plansResultHandler(result) {
+        Functions.log("[OverviewPage] plan data received - " + result);
         loading = false;
     }
 

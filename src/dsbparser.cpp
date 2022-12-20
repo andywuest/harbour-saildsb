@@ -3,15 +3,13 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QJsonArray>
-#include <QJsonDocument>
 #include <QJsonObject>
 #include <QRegularExpression>
 #include <QUrl>
 
 DsbParser::DsbParser() {}
 
-QJsonDocument DsbParser::parseHtmlToJson(QString planInHtml) {
-  QJsonDocument resultDocument;
+QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
   QJsonArray resultArray;
 
   // qDebug() << planInHtml;
@@ -88,12 +86,5 @@ QJsonDocument DsbParser::parseHtmlToJson(QString planInHtml) {
   QJsonObject planObject;
   planObject.insert("date", matchedDate);
   planObject.insert("data", resultArray);
-
-  resultDocument.setObject(planObject);
-
-  qDebug()
-      << " json : "
-      << resultDocument.toJson(QJsonDocument::Indented).toStdString().c_str();
-
-  return resultDocument;
+  return planObject;
 }

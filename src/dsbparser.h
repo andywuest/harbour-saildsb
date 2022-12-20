@@ -10,7 +10,7 @@ public:
   DsbParser();
 
 public:
-  QJsonDocument parseHtmlToJson(QString planInHtml);
+  QJsonObject parseHtmlToJson(QString planInHtml);
 };
 
 #endif // DSBPARSER_H
