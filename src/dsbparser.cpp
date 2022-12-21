@@ -3,38 +3,36 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QJsonArray>
-#include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QRegularExpression>
 #include <QUrl>
 
 DsbParser::DsbParser() {}
 
 QList<QString> DsbParser::parseTimetable(QString timetable) {
-    const QJsonArray rootArray = QJsonDocument::fromJson(timetable.toUtf8()).array();
+  const QJsonArray rootArray =
+      QJsonDocument::fromJson(timetable.toUtf8()).array();
 
-    QList<QString> planUrls;
+  QList<QString> planUrls;
 
-    foreach (const QJsonValue &timetableObject, rootArray) {
-      const QJsonObject timetableEntry = timetableObject.toObject();
-      const QJsonArray childArray = timetableEntry["Childs"].toArray();
-      foreach (const QJsonValue &childObject, childArray) {
-        const QJsonObject childEntry = childObject.toObject();
-        const QString htmlPlanUrl = childEntry["Detail"].toString();
-        if (!htmlPlanUrl.isEmpty()) {
-          planUrls.append(htmlPlanUrl);
-        }
+  foreach (const QJsonValue &timetableObject, rootArray) {
+    const QJsonObject timetableEntry = timetableObject.toObject();
+    const QJsonArray childArray = timetableEntry["Childs"].toArray();
+    foreach (const QJsonValue &childObject, childArray) {
+      const QJsonObject childEntry = childObject.toObject();
+      const QString htmlPlanUrl = childEntry["Detail"].toString();
+      if (!htmlPlanUrl.isEmpty()) {
+        planUrls.append(htmlPlanUrl);
       }
     }
+  }
 
-   return planUrls;
+  return planUrls;
 }
 
 QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
-  QJsonArray resultArray;
-
-  // qDebug() << planInHtml;
-
+  QString planInHtmlCopy = QString(planInHtml);
   QRegularExpression dateRegExp(
       "<div class=\"mon_title\">([\\.\\,\\w\\s]+)</div>");
 
@@ -67,6 +65,7 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
 
   QStringList lines = tableNoClasses.split("<tr>");
 
+  QJsonArray resultArray;
   for (int i = 0; i < lines.size(); ++i) {
     qDebug() << lines.at(i);
     QString line = lines.at(i);
@@ -78,6 +77,7 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
                             .replace(QRegExp("</td><td>"), "|") //
                             .replace(QRegExp("</td></tr>"), "") //
                             .replace(QRegExp("<td>"), "")       //
+                            .replace(QRegExp("\r"), "")         //
                             .replace(QRegExp("\n"), "");
 
     QStringList splitList = tokenLine.split("|");
@@ -102,10 +102,21 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
     qDebug() << tokenLine;
   }
 
+  QString schoolData = planInHtmlCopy
+                           .replace(QRegExp("</table>.*"), "")  //
+                           .replace(QRegExp(".*bottom\">"), "") //
+                           .replace(QRegExp("<span.*"), "")     //
+                           .replace(QRegExp("<p>"), "")         //
+                           .replace(QRegExp("^\\s*"), "")       //
+                           .replace(QRegExp("\\s*$"), "");
+
+  qDebug() << "school data : " << schoolData;
+
   // qDebug() << " Table : \n" << tableNoClasses;
 
   QJsonObject planObject;
   planObject.insert("date", matchedDate);
   planObject.insert("data", resultArray);
+  planObject.insert("title", schoolData);
   return planObject;
 }

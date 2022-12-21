@@ -54,16 +54,24 @@ void IngDibaBackendTests::testIngDibaBackendProcessSearchResult() {
 */
 
 void DsbParserTests::testParseTimetable() {
-    QByteArray data = readFileData("timetable.json");
-    if (data.isEmpty()) {
-      QString msg = "Testfile timetable.json not found!";
-      QFAIL(msg.toLocal8Bit().data());
-    }
+  QByteArray data = readFileData("timetable.json");
+  if (data.isEmpty()) {
+    QString msg = "Testfile timetable.json not found!";
+    QFAIL(msg.toLocal8Bit().data());
+  }
 
-    const QList<QString> planUrls = dsbParser->parseTimetable(QString(data));
-    QCOMPARE(planUrls.size(), 2);
-    QCOMPARE(planUrls.at(0), "https://light.dsbcontrol.de/DSBlightWebsite/Data/2adb15e3-8e4d-4102-ae28-2d5cad09bbfd/943ceb37-345f-409f-b2f1-3d994bf873d6/subst_001.htm?638022895036162543");
-    QCOMPARE(planUrls.at(1), "https://light.dsbcontrol.de/DSBlightWebsite/Data/2adb15e3-8e4d-4102-ae28-2d5cad09bbfd/07ca34e1-a14e-4252-95fe-9dc42a087e32/subst_001.htm?638022895036162543");
+  const QList<QString> planUrls = dsbParser->parseTimetable(QString(data));
+  QCOMPARE(planUrls.size(), 2);
+  QCOMPARE(
+      planUrls.at(0),
+      "https://light.dsbcontrol.de/DSBlightWebsite/Data/"
+      "2adb15e3-8e4d-4102-ae28-2d5cad09bbfd/"
+      "943ceb37-345f-409f-b2f1-3d994bf873d6/subst_001.htm?638022895036162543");
+  QCOMPARE(
+      planUrls.at(1),
+      "https://light.dsbcontrol.de/DSBlightWebsite/Data/"
+      "2adb15e3-8e4d-4102-ae28-2d5cad09bbfd/"
+      "07ca34e1-a14e-4252-95fe-9dc42a087e32/subst_001.htm?638022895036162543");
 }
 
 void DsbParserTests::testParsePlanToJson() {
@@ -76,9 +84,14 @@ void DsbParserTests::testParsePlanToJson() {
   const QJsonObject jsonPlanObject = dsbParser->parseHtmlToJson(QString(data));
   QCOMPARE(jsonPlanObject["data"].isArray(), true);
   QCOMPARE(jsonPlanObject["date"].isString(), true);
+  QCOMPARE(jsonPlanObject["title"].isString(), true);
 
   const QString planDate = jsonPlanObject["date"].toString();
   QCOMPARE(planDate, "25.10.2022 Dienstag, Woche A");
+
+  const QString title = jsonPlanObject["title"].toString();
+  QCOMPARE(title, "GESCHW.-SCHOLL-GYM STUTTGART");
+
   const QJsonArray planData = jsonPlanObject["data"].toArray();
   QCOMPARE(planData.size(), 3);
   QCOMPARE(planData.at(0).toObject().value("class"), "7a");
