@@ -4,10 +4,31 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QJsonDocument>
 #include <QRegularExpression>
 #include <QUrl>
 
 DsbParser::DsbParser() {}
+
+QList<QString> DsbParser::parseTimetable(QString timetable) {
+    const QJsonArray rootArray = QJsonDocument::fromJson(timetable.toUtf8()).array();
+
+    QList<QString> planUrls;
+
+    foreach (const QJsonValue &timetableObject, rootArray) {
+      const QJsonObject timetableEntry = timetableObject.toObject();
+      const QJsonArray childArray = timetableEntry["Childs"].toArray();
+      foreach (const QJsonValue &childObject, childArray) {
+        const QJsonObject childEntry = childObject.toObject();
+        const QString htmlPlanUrl = childEntry["Detail"].toString();
+        if (!htmlPlanUrl.isEmpty()) {
+          planUrls.append(htmlPlanUrl);
+        }
+      }
+    }
+
+   return planUrls;
+}
 
 QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
   QJsonArray resultArray;

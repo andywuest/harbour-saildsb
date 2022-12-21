@@ -11,6 +11,7 @@ public:
 
 public:
   QJsonObject parseHtmlToJson(QString planInHtml);
+  QList<QString> parseTimetable(QString timetable);
 };
 
 #endif // DSBPARSER_H

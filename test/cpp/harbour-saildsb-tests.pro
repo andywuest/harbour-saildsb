@@ -15,7 +15,8 @@ include(../../harbour-saildsb.pri)
 TARGET = DsbParserTests
 
 DISTFILES += \
-    testdata/plan.html
+    testdata/plan.html \
+    testdata/timetable.json
 
 DEFINES += UNIT_TEST
 

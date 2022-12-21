@@ -97,23 +97,11 @@ void DsbMobileBackend::processGetPlansResult(QNetworkReply *reply) {
   QByteArray responseData = reply->readAll();
   QString result = QString(responseData);
 
-  const QJsonArray rootArray = QJsonDocument::fromJson(responseData).array();
-
-  QList<QString> planUrls;
-
-  foreach (const QJsonValue &timetableObject, rootArray) {
-    QJsonObject timetableEntry = timetableObject.toObject();
-    const QJsonArray childArray = timetableEntry["Childs"].toArray();
-    foreach (const QJsonValue &childObject, childArray) {
-      QJsonObject childEntry = childObject.toObject();
-      QString htmlPlanUrl = childEntry["Detail"].toString();
-      if (!htmlPlanUrl.isEmpty()) {
-        planUrls.append(htmlPlanUrl);
-      }
-    }
-  }
-
   qDebug() << result;
+
+  // TODO instantiate in constructor
+  DsbParser *dsbParser = new DsbParser();
+  QList<QString> planUrls = dsbParser->parseTimetable(result);
 
   this->numberOfPlans = planUrls.size();
   timetableResults.clear();

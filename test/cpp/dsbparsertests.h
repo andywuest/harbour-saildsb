@@ -34,8 +34,9 @@ protected:
 private slots:
   void init();
 
-  // ING-DIBA Security Backend
+  // DSBMobile Backend
   void testParsePlanToJson();
+  void testParseTimetable();
 };
 
 #endif // DSB_PARSER_TEST_H
