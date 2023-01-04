@@ -16,6 +16,7 @@ ApplicationWindow
 
         property string userName
         property string password
+        property string filter // comma separated filter values, e.g. "5c, 8a"
     }
 
     Component {

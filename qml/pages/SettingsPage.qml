@@ -16,6 +16,7 @@ Page {
             Functions.log("[SettingsPage] store settings!");
             sailDsbSettings.userName = userNameTextField.text;
             sailDsbSettings.password = passwordTextField.text;
+            sailDsbSettings.filter = filterTextField.text;
             sailDsbSettings.sync();
         }
     }
@@ -56,6 +57,16 @@ Page {
                 text: sailDsbSettings.password
             }
 
+            SectionHeader {
+                //: SettingsPage filter
+                text: qsTr("Filter")
+            }
+
+            TextField {
+                id: filterTextField
+                width: parent.width
+                text: sailDsbSettings.filter
+            }
         }
 
     }

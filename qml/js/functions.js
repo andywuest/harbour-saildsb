@@ -7,3 +7,29 @@ function log(message) {
         console.log(message);
     }
 }
+
+function resolveText(indicator, value) {
+  return indicator ? value : "";
+}
+
+function getFilterTokens(filter) {
+    if (filter) {
+        return filter.replace(/\s/g, "").toLowerCase().split(",");
+    }
+    return [];
+}
+
+function isFilterTokenMatch(value, filterTokens) {
+    // all match
+    if (filterTokens.length === 0) {
+        return true;
+    }
+    var match = false;
+    for (var t = 0; t < filterTokens.length; t++) {
+        if (filterTokens[t] === value.toLowerCase()) {
+            match = true;
+            break;
+        }
+    }
+    return match;
+}

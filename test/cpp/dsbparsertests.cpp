@@ -94,7 +94,7 @@ void DsbParserTests::testParsePlanToJson() {
 
   const QJsonArray planData = jsonPlanObject["data"].toArray();
   QCOMPARE(planData.size(), 3);
-  QCOMPARE(planData.at(0).toObject().value("class"), "7a");
+  QCOMPARE(planData.at(0).toObject().value("theClass"), "7a");
   QCOMPARE(planData.at(0).toObject().value("course"), "BK");
   QCOMPARE(planData.at(0).toObject().value("hour"), "2");
   QCOMPARE(planData.at(0).toObject().value("newCourse"), "Geo");

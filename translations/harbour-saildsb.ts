@@ -112,6 +112,10 @@
         <extracomment>OverviewPage settings menu item</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No stand-in</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SecondPage</name>
@@ -134,6 +138,11 @@
     <message>
         <source>DSBMobile Credentials</source>
         <extracomment>SettingsPage section user name</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <extracomment>SettingsPage filter</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

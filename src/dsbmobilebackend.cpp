@@ -118,7 +118,7 @@ void DsbMobileBackend::processGetPlansResult(QNetworkReply *reply) {
   }
 
   //  emit authTokenAvailable(result);
-  emit plansAvailable("plans available");
+  // emit plansAvailable("plans available");
 }
 
 void DsbMobileBackend::handleGetTimetableFinished() {

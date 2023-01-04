@@ -84,7 +84,7 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
 
     if (splitList.length() == 6) {
       QJsonObject entry;
-      entry.insert("class", splitList.at(0));
+      entry.insert("theClass", splitList.at(0));
       entry.insert("hour", splitList.at(1));
       entry.insert("course", splitList.at(2));
       entry.insert("type", splitList.at(3));
