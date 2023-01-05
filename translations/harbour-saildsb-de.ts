@@ -70,10 +70,6 @@
 <context>
     <name>OverviewPage</name>
     <message>
-        <source>Overview !!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>About</source>
         <extracomment>OverviewPage about menu item</extracomment>
         <translation type="unfinished"></translation>
@@ -114,6 +110,10 @@
     </message>
     <message>
         <source>No stand-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plans</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

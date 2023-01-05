@@ -31,6 +31,28 @@ QList<QString> DsbParser::parseTimetable(QString timetable) {
   return planUrls;
 }
 
+QList<QString> DsbParser::extractPlanLines(QString planTableData) {
+    if (planTableData.contains("Keine Vertretung")) {
+        return QList<QString>();
+    } else {
+        QString tableNoClasses =
+            planTableData
+                .replace("list", "")                      //
+                .replace("center", "")                    //
+                .replace(" odd", "")                      //
+                .replace(" even", "")                     //
+                .replace("background-color: #FFFFFF", "") //
+                .replace(" class=''", "")                 //
+                .replace(" align=\"\"", "")               //
+                .replace(" class=\"\"", "")               //
+                .replace(" style=\"\"", "")               //
+                .replace("\r", "")                        //
+                .replace("\n", "");
+
+        return tableNoClasses.split("<tr>");
+    }
+}
+
 QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
   QString planInHtmlCopy = QString(planInHtml);
   QRegularExpression dateRegExp(
@@ -46,39 +68,33 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
     qDebug() << "date match : " << matchedDate;
   }
 
+  qDebug() << "1" << QTime::currentTime().toString("hh:mm:ss.zzz");
+
   QString tableDataOnly =
       planInHtml
           .replace(QRegExp(".*<table class=\"mon_list\" >"), "") //
           .replace(QRegExp("</table>.*"), "");
 
-  QString tableNoClasses =
-      tableDataOnly
-          .replace(QRegExp("list"), "")                      //
-          .replace(QRegExp("center"), "")                    //
-          .replace(QRegExp(" odd"), "")                      //
-          .replace(QRegExp(" even"), "")                     //
-          .replace(QRegExp("background-color: #FFFFFF"), "") //
-          .replace(QRegExp(" class=''"), "")                 //
-          .replace(QRegExp(" align=\"\""), "")               //
-          .replace(QRegExp(" class=\"\""), "")               //
-          .replace(QRegExp(" style=\"\""), "");
+  qDebug() << "2" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
-  QStringList lines = tableNoClasses.split("<tr>");
+  QStringList lines = extractPlanLines(tableDataOnly);
+
+  qDebug() << "3" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
   QJsonArray resultArray;
   for (int i = 0; i < lines.size(); ++i) {
     qDebug() << lines.at(i);
     QString line = lines.at(i);
-    if (line.indexOf("<th") != -1) {
+    if (line.indexOf("<th") != -1 || line.isEmpty()) {
       continue;
     }
 
-    QString tokenLine = line.replace(QRegExp("<td >"), "<td>")  //
-                            .replace(QRegExp("</td><td>"), "|") //
-                            .replace(QRegExp("</td></tr>"), "") //
-                            .replace(QRegExp("<td>"), "")       //
-                            .replace(QRegExp("\r"), "")         //
-                            .replace(QRegExp("\n"), "");
+    QString tokenLine = line.replace("<td >", "<td>")  //
+                            .replace("</td><td>", "|") //
+                            .replace("</td></tr>", "") //
+                            .replace("<td>", "")       //
+                            .replace("\r", "")         //
+                            .replace("\n", "");
 
     QStringList splitList = tokenLine.split("|");
 

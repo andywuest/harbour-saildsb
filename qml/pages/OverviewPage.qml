@@ -60,7 +60,9 @@ Page {
         planEntriesModel.append(noStandInEntry);
     }
 
-    function addPlanDataToModel(planData, filterTokens) {
+    function addPlanDataToModel() {
+        planEntriesModel.clear();
+        var filterTokens = Functions.getFilterTokens(sailDsbSettings.filter)
         for (var i = 0; i < planData.length; i++) {
             var dayData = planData[i];
             var allFiltered = true;
@@ -74,6 +76,7 @@ Page {
                         planEntriesModel.append(planDay);
                         allFiltered = false;
                     }
+                    planEntriesHeader.description = dayData.title;
                 }
                 if (allFiltered) {
                     addNoStandInEntry(dayData.date);
@@ -87,11 +90,9 @@ Page {
     function plansResultHandler(result) {
         Functions.log("[OverviewPage] plan data received - " + result);
 
-        planEntriesModel.clear();
-
         if (result && result !== "") {
             planData = JSON.parse(result);
-            addPlanDataToModel(planData, Functions.getFilterTokens(sailDsbSettings.filter));
+            addPlanDataToModel();
         }
 
         loading = false;
@@ -119,7 +120,10 @@ Page {
             MenuItem {
                 //: OverviewPage settings menu item
                 text: qsTr("Settings")
-                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+                onClicked: {
+                    var settingsPage = pageStack.push(Qt.resolvedUrl("SettingsPage.qml"));
+                    settingsPage.applyChangedFilter.connect(addPlanDataToModel);
+                }
             }
             MenuItem {
                 //: OverviewPage settings menu item
@@ -138,7 +142,7 @@ Page {
 
             PageHeader {
                 id: planEntriesHeader
-                title: qsTr("Overview !!")
+                title: qsTr("Plans")
             }
 
             SilicaListView {

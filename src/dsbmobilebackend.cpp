@@ -28,6 +28,9 @@ QNetworkRequest DsbMobileBackend::prepareNetworkRequest(const QUrl url,
     request.setRawHeader("Accept", MIME_TYPE_HTML);
   }
   request.setHeader(QNetworkRequest::UserAgentHeader, USER_AGENT);
+
+  qDebug() << "fetching : " << url;
+
   return request;
 }
 

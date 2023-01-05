@@ -26,7 +26,7 @@ function isFilterTokenMatch(value, filterTokens) {
     }
     var match = false;
     for (var t = 0; t < filterTokens.length; t++) {
-        if (filterTokens[t] === value.toLowerCase()) {
+        if (filterTokens[t] === value.toLowerCase() || value.indexOf(filterTokens[t]) !== -1) {
             match = true;
             break;
         }
