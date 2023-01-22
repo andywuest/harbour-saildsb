@@ -11,17 +11,22 @@ import "../js/functions.js" as Functions
 Page {
     id: settingsPage
     signal applyChangedFilter()
+    signal crendentialsChanged()
 
     onStatusChanged: {
         if (status === PageStatus.Deactivating) {
             Functions.log("[SettingsPage] store settings!");
             var filterChanged = (sailDsbSettings.filter !== filterTextField.text);
+            var credentialsChanged = (sailDsbSettings.userName !== userNameTextField.text
+                                      || sailDsbSettings.password !== passwordTextField.text);
             sailDsbSettings.userName = userNameTextField.text;
             sailDsbSettings.password = passwordTextField.text;
             sailDsbSettings.filter = filterTextField.text;
             sailDsbSettings.sync();
-            if (filterChanged) {
-                Functions.log("Filter has changed to " + filterTextField.text);
+            if (credentialsChanged) {
+                Functions.log("[SettingsPage] Credentials have changed");
+            } else if (filterChanged) {
+                Functions.log("[SettingsPage] Filter has changed to " + filterTextField.text);
                 applyChangedFilter();
             }
         }

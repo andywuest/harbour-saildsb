@@ -6,8 +6,6 @@ import "../components/thirdparty"
 
 import "../js/functions.js" as Functions
 
-// TODO when return from settings page - update filter model again
-
 Page {
     id: planPage
 
@@ -33,8 +31,10 @@ Page {
     }
 
     function getAuthToken() {
-        loading = true;
-        dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
+        if (sailDsbSettings.userName && sailDsbSettings.password) {
+            loading = true;
+            dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
+        }
     }
 
     function getPlans() {
@@ -123,6 +123,7 @@ Page {
                 onClicked: {
                     var settingsPage = pageStack.push(Qt.resolvedUrl("SettingsPage.qml"));
                     settingsPage.applyChangedFilter.connect(addPlanDataToModel);
+                    settingsPage.crendentialsChanged.connect(getAuthToken);
                 }
             }
             MenuItem {
