@@ -32,28 +32,40 @@ QList<QString> DsbParser::parseTimetable(QString timetable) {
 }
 
 QList<QString> DsbParser::extractPlanLines(QString planTableData) {
-    if (planTableData.contains("Keine Vertretung")) {
-        return QList<QString>();
-    } else {
-        QString tableNoClasses =
-            planTableData
-                .replace("list", "")                      //
-                .replace("center", "")                    //
-                .replace(" odd", "")                      //
-                .replace(" even", "")                     //
-                .replace("background-color: #FFFFFF", "") //
-                .replace(" class=''", "")                 //
-                .replace(" align=\"\"", "")               //
-                .replace(" class=\"\"", "")               //
-                .replace(" style=\"\"", "")               //
-                .replace("\r", "")                        //
-                .replace("\n", "");
+  if (planTableData.contains("Keine Vertretung")) {
+    return QList<QString>();
+  } else {
+    QString tableNoClasses = planTableData
+                                 .replace("list", "")                      //
+                                 .replace("center", "")                    //
+                                 .replace(" odd", "")                      //
+                                 .replace(" even", "")                     //
+                                 .replace("background-color: #FFFFFF", "") //
+                                 .replace(" class=''", "")                 //
+                                 .replace(" align=\"\"", "")               //
+                                 .replace(" class=\"\"", "")               //
+                                 .replace(" style=\"\"", "")               //
+                                 .replace("\r", "")                        //
+                                 .replace("\n", "");
 
-        return tableNoClasses.split("<tr>");
-    }
+    return tableNoClasses.split("<tr>");
+  }
+}
+
+QString DsbParser::extractTableData(QString planData) {
+  long startPos = planData.indexOf("<table class=\"mon_list\" >") +
+                  QString("<table class=\"mon_list\" >").length();
+  long endPos = planData.indexOf("</table>", startPos);
+
+  qDebug() << "start pos : " << startPos << " - end pos : " << endPos;
+
+  QStringRef subString(&planData, startPos, endPos - startPos);
+  return subString.toString().remove("\n");
 }
 
 QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
+  qDebug() << "0" << QTime::currentTime().toString("hh:mm:ss.zzz");
+
   QString planInHtmlCopy = QString(planInHtml);
   QRegularExpression dateRegExp(
       "<div class=\"mon_title\">([\\.\\,\\w\\s]+)</div>");
@@ -68,18 +80,15 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
     qDebug() << "date match : " << matchedDate;
   }
 
-  qDebug() << "1" << QTime::currentTime().toString("hh:mm:ss.zzz");
+  // qDebug() << "1" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
-  QString tableDataOnly =
-      planInHtml
-          .replace(QRegExp(".*<table class=\"mon_list\" >"), "") //
-          .replace(QRegExp("</table>.*"), "");
+  QString tableDataOnly = extractTableData(planInHtml);
 
-  qDebug() << "2" << QTime::currentTime().toString("hh:mm:ss.zzz");
+  // qDebug() << "2" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
   QStringList lines = extractPlanLines(tableDataOnly);
 
-  qDebug() << "3" << QTime::currentTime().toString("hh:mm:ss.zzz");
+  // qDebug() << "3" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
   QJsonArray resultArray;
   for (int i = 0; i < lines.size(); ++i) {
@@ -114,6 +123,8 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
     } else {
       qDebug() << "unexpected length of splitList !";
     }
+
+    qDebug() << "4" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
     qDebug() << tokenLine;
   }

@@ -12,10 +12,10 @@ public:
 public:
   QJsonObject parseHtmlToJson(QString planInHtml);
   QList<QString> parseTimetable(QString timetable);
+  QString extractTableData(QString planData);
 
 protected:
   QList<QString> extractPlanLines(QString planTableData);
-
 };
 
 #endif // DSBPARSER_H

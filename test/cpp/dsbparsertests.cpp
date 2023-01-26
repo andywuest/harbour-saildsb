@@ -20,39 +20,6 @@
 
 void DsbParserTests::init() { dsbParser = new DsbParser(); }
 
-/*
-void DsbParserTests::testParsePlanToJson() {
-    qDebug() << "dir : " << QCoreApplication::applicationFilePath();
-    qDebug() << "Timezone for test : " << QTimeZone::systemTimeZone();
-    QString testDate = QString("2020-10-14T20:22:24+02:00");
-    QTimeZone testTimeZone = QTimeZone("Europe/Berlin");
-    QDateTime convertedDateTime =
-IngDibaUtils::convertTimestampToLocalTimestamp(testDate, testTimeZone); QString
-dateTimeFormatted = convertedDateTime.toString("yyyy-MM-dd") + " " +
-convertedDateTime.toString("hh:mm:ss"); QCOMPARE(dateTimeFormatted,
-QString("2020-10-14 20:22:24"));
-}
-
-void IngDibaBackendTests::testIngDibaBackendProcessSearchResult() {
-    // TODO use readFileData
-
-    QString testFile = "ie00b57x3v84.json";
-    QFile f("testdata/" + testFile);
-    if (!f.open(QFile::ReadOnly | QFile::Text)) {
-        QString msg = "Testfile " + testFile + " not found!";
-        QFAIL(msg.toLocal8Bit().data());
-    }
-
-    QTextStream in(&f);
-    QByteArray data = in.readAll().toUtf8();
-    QString parsedResult = ingDibaBackend->processSearchResult(data);
-    QJsonDocument jsonDocument = QJsonDocument::fromJson(parsedResult.toUtf8());
-    QCOMPARE(jsonDocument.isArray(), true);
-    QJsonArray resultArray = jsonDocument.array();
-    QCOMPARE(resultArray.size(), 1);
-}
-*/
-
 void DsbParserTests::testParseTimetable() {
   QByteArray data = readFileData("timetable.json");
   if (data.isEmpty()) {
@@ -100,24 +67,18 @@ void DsbParserTests::testParsePlanToJson() {
   QCOMPARE(planData.at(0).toObject().value("newCourse"), "Geo");
   QCOMPARE(planData.at(0).toObject().value("room"), "123");
   QCOMPARE(planData.at(0).toObject().value("type"), "Verlegung");
+}
 
-  /*
-      QString parsedResult = ingDibaNews->processSearchResult(data);
-      QJsonDocument jsonDocument =
-     QJsonDocument::fromJson(parsedResult.toUtf8());
-      QCOMPARE(jsonDocument.isObject(), true);
+void DsbParserTests::testExtractTableData() {
+  QByteArray data = readFileData("plan.html");
+  if (data.isEmpty()) {
+    QString msg = "Testfile plan.html not found!";
+    QFAIL(msg.toLocal8Bit().data());
+  }
 
-      QJsonArray resultArray = jsonDocument["newsItems"].toArray();
-      QCOMPARE(resultArray.size(), 8);
-
-      QJsonObject newsEntry = resultArray.at(0).toObject();
-      QCOMPARE(newsEntry["source"], "DJN.576664");
-      QCOMPARE(newsEntry["headline"], "Merkel-Vertraute reisen nach Washington
-     zu Gesprächen über Nord Stream 2"); QCOMPARE(newsEntry["dateTime"], "Di.
-     Juni 1 01:00:00 2021"); // TODO richtiger conversion fehlt noch
-      */
-
-  // TODO QCOMPARE first news data entry
+  const QString result = dsbParser->extractTableData(QString(data));
+  QCOMPARE(result.startsWith("<tr class='list'><"), true);
+  QCOMPARE(result.endsWith(">105</td></tr>"), true);
 }
 
 QByteArray DsbParserTests::readFileData(const QString &fileName) {

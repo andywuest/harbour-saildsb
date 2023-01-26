@@ -37,6 +37,7 @@ private slots:
   // DSBMobile Backend
   void testParsePlanToJson();
   void testParseTimetable();
+  void testExtractTableData();
 };
 
 #endif // DSB_PARSER_TEST_H
