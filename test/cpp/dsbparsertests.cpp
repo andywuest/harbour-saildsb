@@ -22,10 +22,7 @@ void DsbParserTests::init() { dsbParser = new DsbParser(); }
 
 void DsbParserTests::testParseTimetable() {
   QByteArray data = readFileData("timetable.json");
-  if (data.isEmpty()) {
-    QString msg = "Testfile timetable.json not found!";
-    QFAIL(msg.toLocal8Bit().data());
-  }
+  QVERIFY2(data.length() > 0, "Testfile not found!");
 
   const QList<QString> planUrls = dsbParser->parseTimetable(QString(data));
   QCOMPARE(planUrls.size(), 2);
@@ -43,10 +40,7 @@ void DsbParserTests::testParseTimetable() {
 
 void DsbParserTests::testParsePlanToJson() {
   QByteArray data = readFileData("plan.html");
-  if (data.isEmpty()) {
-    QString msg = "Testfile plan.html not found!";
-    QFAIL(msg.toLocal8Bit().data());
-  }
+  QVERIFY2(data.length() > 0, "Testfile not found!");
 
   const QJsonObject jsonPlanObject = dsbParser->parseHtmlToJson(QString(data));
   QCOMPARE(jsonPlanObject["data"].isArray(), true);
@@ -71,10 +65,7 @@ void DsbParserTests::testParsePlanToJson() {
 
 void DsbParserTests::testExtractTableData() {
   QByteArray data = readFileData("plan.html");
-  if (data.isEmpty()) {
-    QString msg = "Testfile plan.html not found!";
-    QFAIL(msg.toLocal8Bit().data());
-  }
+  QVERIFY2(data.length() > 0, "Testfile not found!");
 
   const QString result = dsbParser->extractTableData(QString(data));
   QCOMPARE(result.startsWith("<tr class='list'><"), true);

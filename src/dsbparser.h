@@ -12,10 +12,15 @@ public:
 public:
   QJsonObject parseHtmlToJson(QString planInHtml);
   QList<QString> parseTimetable(QString timetable);
-  QString extractTableData(QString planData);
 
 protected:
   QList<QString> extractPlanLines(QString planTableData);
+
+  QString extractTableData(QString planData);
+
+#ifdef UNIT_TEST
+  friend class DsbParserTests; // to test non public methods
+#endif
 };
 
 #endif // DSBPARSER_H
