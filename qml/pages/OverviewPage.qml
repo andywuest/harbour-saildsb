@@ -47,7 +47,7 @@ Page {
         getPlans();
     }
 
-    function addNoStandInEntry(date) {
+    function addNoStandInEntry(dateString) {
         var noStandInEntry = {};
         noStandInEntry.theClass = "";
         noStandInEntry.hour = "";
@@ -56,7 +56,7 @@ Page {
         noStandInEntry.newCourse = "";
         noStandInEntry.room = "";
         noStandInEntry.room = "";
-        noStandInEntry.date = date;
+        noStandInEntry.dateString = dateString;
         planEntriesModel.append(noStandInEntry);
     }
 
@@ -72,17 +72,17 @@ Page {
                     if (!Functions.isFilterTokenMatch(planDay.theClass, filterTokens)) {
                         // ignore
                     } else {
-                        planDay.date = dayData.date;
+                        planDay.dateString = dayData.dateString;
                         planEntriesModel.append(planDay);
                         allFiltered = false;
                     }
                     planEntriesHeader.description = dayData.title;
                 }
                 if (allFiltered) {
-                    addNoStandInEntry(dayData.date);
+                    addNoStandInEntry(dayData.dateString);
                 }
             } else {
-                addNoStandInEntry(dayData.date);
+                addNoStandInEntry(dayData.dateString);
             }
         }
     }
@@ -162,7 +162,7 @@ Page {
 
 // TODO flatten
                 section {
-                    property: "date"
+                    property: "dateString"
                     criteria: ViewSection.FullString
                     delegate: SectionHeader {
                         text: section

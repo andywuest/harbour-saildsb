@@ -47,8 +47,11 @@ void DsbParserTests::testParsePlanToJson() {
   QCOMPARE(jsonPlanObject["date"].isString(), true);
   QCOMPARE(jsonPlanObject["title"].isString(), true);
 
+  const QString planDateString = jsonPlanObject["dateString"].toString();
+  QCOMPARE(planDateString, "25.10.2022 Dienstag, Woche A");
+
   const QString planDate = jsonPlanObject["date"].toString();
-  QCOMPARE(planDate, "25.10.2022 Dienstag, Woche A");
+  QCOMPARE(planDate, "25.10.2022");
 
   const QString title = jsonPlanObject["title"].toString();
   QCOMPARE(title, "GESCHW.-SCHOLL-GYM STUTTGART");

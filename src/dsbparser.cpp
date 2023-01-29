@@ -69,6 +69,8 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
   QString planInHtmlCopy = QString(planInHtml);
   QRegularExpression dateRegExp(
       "<div class=\"mon_title\">([\\.\\,\\w\\s]+)</div>");
+  QRegularExpression dateOnlyRegExp(
+      "<div class=\"mon_title\">(\\d{1,2}\\.\\d{1,2}\\.\\d{4})");
 
   QString matchedDate("-");
   QRegularExpressionMatch match = dateRegExp.match(planInHtml);
@@ -79,6 +81,18 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
                                  match.capturedEnd(1) - match.capturedStart(1));
     qDebug() << "date match : " << matchedDate;
   }
+
+  QString matchedDateOnly("-");
+  QRegularExpressionMatch dateOnlyMatch = dateOnlyRegExp.match(planInHtml);
+  if (dateOnlyMatch.hasMatch()) {
+      qDebug() << "XXXXXXXXXXXXXXXXXXXXX match : " << matchedDateOnly;
+      matchedDateOnly = planInHtml.mid(dateOnlyMatch.capturedStart(1),
+                                       dateOnlyMatch.capturedEnd(1) - dateOnlyMatch.capturedStart(1));
+      qDebug() << "dateOnly match : " << matchedDateOnly;
+  } else {
+      qDebug() << "dateOnly no match : " << matchedDateOnly;
+  }
+
 
   // qDebug() << "1" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
@@ -142,7 +156,8 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
   // qDebug() << " Table : \n" << tableNoClasses;
 
   QJsonObject planObject;
-  planObject.insert("date", matchedDate);
+  planObject.insert("dateString", matchedDate);
+  planObject.insert("date", matchedDateOnly);
   planObject.insert("data", resultArray);
   planObject.insert("title", schoolData);
   return planObject;

@@ -41,8 +41,16 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>My Cover</source>
-        <translation>Mein Cover</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stand-ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 :</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
