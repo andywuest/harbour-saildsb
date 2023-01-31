@@ -38,6 +38,7 @@ private slots:
   void testParsePlanToJson();
   void testParseTimetable();
   void testExtractTableData();
+  void testGetNormalizedDateString();
 };
 
 #endif // DSB_PARSER_TEST_H

@@ -33,3 +33,7 @@ function isFilterTokenMatch(value, filterTokens) {
     }
     return match;
 }
+
+function hasCredentials(userName, password) {
+    return (userName && userName.length > 0 && password && password.length > 0);
+}

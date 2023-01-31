@@ -72,7 +72,13 @@ void DsbParserTests::testExtractTableData() {
 
   const QString result = dsbParser->extractTableData(QString(data));
   QCOMPARE(result.startsWith("<tr class='list'><"), true);
-  QCOMPARE(result.endsWith(">105</td></tr>"), true);
+  QCOMPARE(result.endsWith(">beschr.</td></tr>"), true);
+}
+
+void DsbParserTests::testGetNormalizedDateString() {
+  QCOMPARE(dsbParser->getNormalizedDateString("2.8.2023"), "02.08.2023");
+  QCOMPARE(dsbParser->getNormalizedDateString("12.8.2023"), "12.08.2023");
+  QCOMPARE(dsbParser->getNormalizedDateString("40..2023"), "40..2023");
 }
 
 QByteArray DsbParserTests::readFileData(const QString &fileName) {

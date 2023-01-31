@@ -86,7 +86,7 @@ void DsbMobileBackend::handleGetPlansFinished() {
 }
 
 void DsbMobileBackend::processGetAuthTokenResult(QNetworkReply *reply) {
-  qDebug() << "CommbankAccountService::processGetAuthTokenResult";
+  qDebug() << "DsbMobileBackend::processGetAuthTokenResult";
   QByteArray responseData = reply->readAll();
   QString result = QString(responseData).replace("\"", "");
 
@@ -95,7 +95,7 @@ void DsbMobileBackend::processGetAuthTokenResult(QNetworkReply *reply) {
 }
 
 void DsbMobileBackend::processGetPlansResult(QNetworkReply *reply) {
-  qDebug() << "CommbankAccountService::processGetPlansResult";
+  qDebug() << "DsbMobileBackend::processGetPlansResult";
 
   QByteArray responseData = reply->readAll();
   QString result = QString(responseData);
@@ -124,6 +124,15 @@ void DsbMobileBackend::processGetPlansResult(QNetworkReply *reply) {
   // emit plansAvailable("plans available");
 }
 
+bool compareByDate(const QJsonObject &obj1, const QJsonObject &obj2) {
+  QDate date1 = QDate::fromString(obj1["date"].toString(), DEFAULT_DATE_FORMAT);
+  QDate date2 = QDate::fromString(obj2["date"].toString(), DEFAULT_DATE_FORMAT);
+
+  qDebug() << "DsbMobileBackend::compareByDate" << date1 << ", " << date2;
+
+  return date1 < date2;
+}
+
 void DsbMobileBackend::handleGetTimetableFinished() {
   qDebug() << "DsbMobileBackend::handleGetTimetableFinished";
   QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
@@ -141,6 +150,9 @@ void DsbMobileBackend::handleGetTimetableFinished() {
   timetableResults.append(jsonObject);
 
   if (timetableResults.size() == this->numberOfPlans) {
+
+    std::sort(timetableResults.begin(), timetableResults.end(), compareByDate);
+
     QJsonDocument resultDocument;
     QJsonArray resultArray;
 
@@ -167,6 +179,16 @@ void DsbMobileBackend::connectErrorSlot(QNetworkReply *reply) {
             qWarning() << "DsbMobileBackend::handleRequestError:"
                        << static_cast<int>(error) << reply->errorString()
                        << result;
+
+            const QJsonDocument jsonDocument = QJsonDocument::fromJson(result);
+            // use general error string - if we did not get json response error
+            QString errorString = reply->errorString();
+            if (jsonDocument.isObject()) {
+              errorString = jsonDocument.object()["Message"].toString();
+            }
+            emit requestError(
+                "Return code: " + QString::number(static_cast<int>(error)) +
+                " - " + errorString);
 
             // TODO -> move to separate method
             //            QJsonDocument jsonDocument =
