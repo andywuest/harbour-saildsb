@@ -18,23 +18,68 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
 
+import "../js/functions.js" as Functions
+
 CoverBackground {
     id: coverPage
+
+    property var planData
     property bool loading : false;
 
-    function populateModel() {
+    function receivePlanDataChanged(result, error, date) {
+        Functions.log("[CoverPage] - data has changed, result : " + result
+                      + ", error " + error + ", date : " + date)
+
+        if (result) {
+            coverPage.planData = result;
+            addPlanDataToModel();
+        } else if (error) {
+            // TODO display no data
+        }
+
+        coverActionRefresh.enabled = true;
+
+        loading = false;
+    }
+
+    function addPlanDataToModel() {
+        Functions.log("[CoverPage] - addPlanDataToModel called.");
         coverModel.clear();
 
+        var filterTokens = Functions.getFilterTokens(sailDsbSettings.filter)
+        for (var i = 0; i < coverPage.planData.length; i++) {
+            var dayData = coverPage.planData[i];
+            var allFiltered = true;
+            if (dayData.data.length > 0) {
+                var standInCount = 0;
+                for (var j = 0; j < dayData.data.length; j++) {
+                    var planDay = dayData.data[j];
+                    if (!Functions.isFilterTokenMatch(planDay.theClass, filterTokens)) {
+                        // ignore
+                    } else {
+                        standInCount++;
+                        allFiltered = false;
+                    }
+                }
+                coverModel.append(createCoveModelEntry(dayData.date, standInCount));
+            } else {
+                coverModel.append(createCoveModelEntry(dayData.date, "?"));
+            }
+        }
+    }
+
+    function createCoveModelEntry(date, standInCount) {
         var entry = {};
-        entry.date = "12.12.2023";
-        entry.numberOfStandins = 10;
+        entry.date = date;
+        entry.numberOfStandins = standInCount;
+        return entry;
+    }
 
-        var entry2 = {};
-        entry2.date = "13.12.2023";
-        entry2.numberOfStandins = 9;
-
-        coverModel.append (entry);
-        coverModel.append (entry2);
+    onVisibleChanged: {
+        Functions.log("[CoverPage] - visible changed :");
+        // read plan to model whenever visible changes -
+        // e.g. filter was changed and we minimize the app
+        addPlanDataToModel();
     }
 
     Column {
@@ -57,15 +102,17 @@ CoverBackground {
     }
 
     CoverActionList {
-        id: coverAction
+        id: coverActionRefresh
 
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
+            onTriggered: {
+                Functions.log("reload clicked")
+                loading = true;
+                coverActionRefresh.enabled = false
+                app.getAuthToken();
+            }
         }
-
-//        CoverAction {
-//            iconSource: "image://theme/icon-cover-pause"
-//        }
     }
 
     SilicaListView {
@@ -96,10 +143,8 @@ CoverBackground {
 
         delegate: ListItem {
 
-            // height: resultLabelTitle.height + resultLabelContent.height + Theme.paddingSmall
             contentHeight: planDayColumn.height + Theme.paddingMedium
 
-            // TODO custom - hier noch pruefen, was an margins noch machbar, sinnvoll ist
             Column {
                 id: planDayColumn
                 x: Theme.paddingLarge
@@ -107,7 +152,6 @@ CoverBackground {
                 anchors.verticalCenter: parent.verticalCenter
 
                 Row {
-//                    id: firstRow
                     width: parent.width
                     height: Theme.fontSizeExtraSmall + Theme.paddingSmall
 
@@ -115,8 +159,7 @@ CoverBackground {
                         id: planDateLabel
                         width: parent.width * 6 / 10
                         height: parent.height
-                        text: qsTr("%1 :").arg(date)
-                        // truncationMode: TruncationMode.Elide // TODO check for very long texts
+                        text: qsTr("%1 :").arg(date) // TODO format date properly
                         color: Theme.primaryColor
                         font.pixelSize: Theme.fontSizeExtraSmall
                         font.bold: true
@@ -137,42 +180,11 @@ CoverBackground {
 
                 }
 
-//                Row {
-//                    id: thirdRow
-//                    width: parent.width
-//                    height: Theme.fontSizeTiny + Theme.paddingSmall
-
-//                    Text {
-//                        id: stockQuoteChange
-//                        width: parent.width / 2
-//                        height: parent.height
-//                        text: Functions.renderPrice(price, currencySymbol)
-//                        color: Theme.highlightColor
-//                        font.pixelSize: Theme.fontSizeTiny
-//                        font.bold: true
-//                        horizontalAlignment: Text.AlignLeft
-//                    }
-
-//                    Text {
-//                        id: changePercentageText
-//                        width: parent.width / 2
-//                        height: parent.height
-//                        text: Functions.renderChange(price, changeRelative, '%')
-//                        color: determineChangeColor(changeRelative)
-//                        font.pixelSize: Theme.fontSizeTiny
-//                        horizontalAlignment: Text.AlignRight
-//                    }
-//                }
             }
         }
 
         Component.onCompleted: {
-//            var dataBackend = getSecurityDataBackend(watchlistSettings.dataBackend);
-//            dataBackend.quoteResultAvailable.connect(quoteResultHandler)
-//            dataBackend.requestError.connect(errorResultHandler)
-//            app.securityAdded.connect(securityAdded);
-//            reloadAllStocks()
-            populateModel();
+            app.planDataChanged.connect(receivePlanDataChanged)
         }
     }
 

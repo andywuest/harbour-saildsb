@@ -10,13 +10,14 @@ public:
   DsbParser();
 
 public:
-  QJsonObject parseHtmlToJson(QString planInHtml);
-  QList<QString> parseTimetable(QString timetable);
+  QJsonObject parseHtmlToJson(const QString &planInHtml);
+  QList<QString> parseTimetable(const QString &timetable);
 
 protected:
   QList<QString> extractPlanLines(QString planTableData);
+  QString getNormalizedDateString(const QString &date);
 
-  QString extractTableData(QString planData);
+  QString extractTableData(const QString &planData);
 
 #ifdef UNIT_TEST
   friend class DsbParserTests; // to test non public methods

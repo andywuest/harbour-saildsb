@@ -24,6 +24,8 @@ DISTFILES += qml/harbour-saildsb.qml \
     qml/components/thirdparty/AboutDescription.qml \
     qml/components/thirdparty/AboutIconLabel.qml \
     qml/components/thirdparty/LoadingIndicator.qml \
+    qml/components/thirdparty/AppNotification.qml \
+    qml/components/thirdparty/AppNotificationItem.qml \
     qml/cover/CoverPage.qml \
     qml/js/constants.js \
     qml/js/functions.js \

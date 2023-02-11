@@ -124,6 +124,10 @@
         <source>Plans</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Please provide valid credentials via the Settings to see the plans.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SecondPage</name>
@@ -151,6 +155,13 @@
     <message>
         <source>Filter</source>
         <extracomment>SettingsPage filter</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>harbour-saildsb</name>
+    <message>
+        <source>No credentials configured.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

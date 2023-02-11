@@ -8,9 +8,11 @@
 #include <QRegularExpression>
 #include <QUrl>
 
+#include "constants.h"
+
 DsbParser::DsbParser() {}
 
-QList<QString> DsbParser::parseTimetable(QString timetable) {
+QList<QString> DsbParser::parseTimetable(const QString &timetable) {
   const QJsonArray rootArray =
       QJsonDocument::fromJson(timetable.toUtf8()).array();
 
@@ -52,7 +54,15 @@ QList<QString> DsbParser::extractPlanLines(QString planTableData) {
   }
 }
 
-QString DsbParser::extractTableData(QString planData) {
+QString DsbParser::getNormalizedDateString(const QString &dateString) {
+  QDate date = QDate::fromString(dateString, "d.M.yyyy");
+  if (date.isValid()) {
+    return date.toString(DEFAULT_DATE_FORMAT);
+  }
+  return dateString;
+}
+
+QString DsbParser::extractTableData(const QString &planData) {
   long startPos = planData.indexOf("<table class=\"mon_list\" >") +
                   QString("<table class=\"mon_list\" >").length();
   long endPos = planData.indexOf("</table>", startPos);
@@ -63,7 +73,7 @@ QString DsbParser::extractTableData(QString planData) {
   return subString.toString().remove("\n");
 }
 
-QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
+QJsonObject DsbParser::parseHtmlToJson(const QString &planInHtml) {
   qDebug() << "0" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
   QString planInHtmlCopy = QString(planInHtml);
@@ -85,14 +95,15 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
   QString matchedDateOnly("-");
   QRegularExpressionMatch dateOnlyMatch = dateOnlyRegExp.match(planInHtml);
   if (dateOnlyMatch.hasMatch()) {
-      qDebug() << "XXXXXXXXXXXXXXXXXXXXX match : " << matchedDateOnly;
-      matchedDateOnly = planInHtml.mid(dateOnlyMatch.capturedStart(1),
-                                       dateOnlyMatch.capturedEnd(1) - dateOnlyMatch.capturedStart(1));
-      qDebug() << "dateOnly match : " << matchedDateOnly;
+    qDebug() << "XXXXXXXXXXXXXXXXXXXXX match : " << matchedDateOnly;
+    matchedDateOnly = planInHtml.mid(dateOnlyMatch.capturedStart(1),
+                                     dateOnlyMatch.capturedEnd(1) -
+                                         dateOnlyMatch.capturedStart(1));
+    matchedDateOnly = getNormalizedDateString(matchedDateOnly);
+    qDebug() << "dateOnly match : " << matchedDateOnly;
   } else {
-      qDebug() << "dateOnly no match : " << matchedDateOnly;
+    qDebug() << "dateOnly no match : " << matchedDateOnly;
   }
-
 
   // qDebug() << "1" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
@@ -116,12 +127,13 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
                             .replace("</td><td>", "|") //
                             .replace("</td></tr>", "") //
                             .replace("<td>", "")       //
+                            .replace("&nbsp;", "")     //
                             .replace("\r", "")         //
                             .replace("\n", "");
 
     QStringList splitList = tokenLine.split("|");
 
-    if (splitList.length() == 6) {
+    if (splitList.length() == 7) {
       QJsonObject entry;
       entry.insert("theClass", splitList.at(0));
       entry.insert("hour", splitList.at(1));
@@ -129,6 +141,7 @@ QJsonObject DsbParser::parseHtmlToJson(QString planInHtml) {
       entry.insert("type", splitList.at(3));
       entry.insert("newCourse", splitList.at(4));
       entry.insert("room", splitList.at(5));
+      entry.insert("text", splitList.at(6));
 
       qDebug() << " adding entry ";
 

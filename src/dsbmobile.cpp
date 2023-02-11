@@ -3,7 +3,7 @@
 DsbMobile::DsbMobile(QObject *parent)
     : QObject(parent), networkAccessManager(new QNetworkAccessManager(this)),
       networkConfigurationManager(new QNetworkConfigurationManager(this)),
-      settings("harbour-watchlist", "settings") {
+      settings("harbour-dsbmobile", "settings") {
   dsbMobileBackend = new DsbMobileBackend(this->networkAccessManager, this);
 }
 

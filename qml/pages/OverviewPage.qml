@@ -10,41 +10,30 @@ Page {
     id: planPage
 
     property bool loading : false
-    property string authToken : ""
     property var planData
+    property bool hasCredentials : false
 
-    // The effective value will be restricted by ApplicationWindow.allowedOrientations
-    allowedOrientations: Orientation.All
+    allowedOrientations: Orientation.Portrait
 
-    function connectSlots() {
-        Functions.log("[OverviewPage] connect - slots");
-        dsbMobileBackend.authTokenAvailable.connect(authTokenResultHandler);
-        dsbMobileBackend.plansAvailable.connect(plansResultHandler);
-        dsbMobileBackend.requestError.connect(errorResultHandler);
+    function receiveCredentialsChanged() {
+        Functions.log("[OverviewPage] - credendtials changed received.");
+        loading = true;
+        planPage.hasCredentials = app.hasCredentials();
+        app.getAuthToken();
     }
 
-    function disconnectSlots() {
-        Functions.log("[OverviewPage] disconnect - slots");
-        dsbMobileBackend.authTokenAvailable.disconnect(authTokenResultHandler);
-        dsbMobileBackend.plansAvailable.disconnect(plansResultHandler);
-        dsbMobileBackend.requestError.disconnect(errorResultHandler);
-    }
-
-    function getAuthToken() {
-        if (sailDsbSettings.userName && sailDsbSettings.password) {
-            loading = true;
-            dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
+    function receivePlanDataChanged(result, error, date) {
+        Functions.log("[OverviewPage] - data has changed, result : " + result
+                      + ", error " + error + ", date : " + date)
+        if (result) {
+            planPage.planData = result;
+            addPlanDataToModel();
+        } else if (error) {
+            planEntriesHeader.description = "";
+            planUpdateNotification.show(error);
         }
-    }
 
-    function getPlans() {
-        dsbMobileBackend.getPlans(authToken);
-    }
-
-    function authTokenResultHandler(result) {
-        Functions.log("[OverviewPage] auth token received - " + result);
-        authToken = result;
-        getPlans();
+        loading = false;
     }
 
     function addNoStandInEntry(dateString) {
@@ -61,10 +50,12 @@ Page {
     }
 
     function addPlanDataToModel() {
+        Functions.log("[OverviewPage] - addPlanDataToModel called.");
         planEntriesModel.clear();
+
         var filterTokens = Functions.getFilterTokens(sailDsbSettings.filter)
-        for (var i = 0; i < planData.length; i++) {
-            var dayData = planData[i];
+        for (var i = 0; i < planPage.planData.length; i++) {
+            var dayData = planPage.planData[i];
             var allFiltered = true;
             if (dayData.data.length > 0) {
                 for (var j = 0; j < dayData.data.length; j++) {
@@ -87,22 +78,8 @@ Page {
         }
     }
 
-    function plansResultHandler(result) {
-        Functions.log("[OverviewPage] plan data received - " + result);
-
-        if (result && result !== "") {
-            planData = JSON.parse(result);
-            addPlanDataToModel();
-        }
-
-        loading = false;
-    }
-
-    function errorResultHandler(result) {
-        Functions.log("[OverviewPage] error received - " + result);
-//        errorInfoLabel.visible = true;
-//        errorDetailInfoLabel.text = result;
-        loading = false;
+    AppNotification {
+        id: planUpdateNotification
     }
 
     // To enable PullDownMenu, place our content in a SilicaFlickable
@@ -123,16 +100,15 @@ Page {
                 onClicked: {
                     var settingsPage = pageStack.push(Qt.resolvedUrl("SettingsPage.qml"));
                     settingsPage.applyChangedFilter.connect(addPlanDataToModel);
-                    settingsPage.crendentialsChanged.connect(getAuthToken);
+                    settingsPage.crendentialsChanged.connect(receiveCredentialsChanged);
                 }
             }
             MenuItem {
                 //: OverviewPage settings menu item
                 text: qsTr("Refresh")
-                onClicked: getAuthToken();
+                onClicked: app.getAuthToken();
             }
         }
-
 
         // Place our content in a Column.  The PageHeader is always placed at the top
         // of the page, followed by our content.
@@ -146,6 +122,18 @@ Page {
                 title: qsTr("Plans")
             }
 
+            Label {
+                id: noCredentialsLabel
+                horizontalAlignment: Text.AlignHCenter
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * x
+                visible: !planPage.hasCredentials
+
+                wrapMode: Text.Wrap
+                textFormat: Text.RichText
+                text: qsTr("Please provide valid credentials via the Settings to see the plans.")
+            }
+
             SilicaListView {
                 id: planEntriesListView
 
@@ -153,6 +141,7 @@ Page {
                 width: parent.width
                 anchors.left: parent.left
                 anchors.right: parent.right
+                visible: !noCredentialsLabel.visible
 
                 clip: true
 
@@ -301,10 +290,15 @@ Page {
     }
 
     Component.onCompleted: {
-        connectSlots();
+        app.planDataChanged.connect(receivePlanDataChanged)
+        loading = true;
+
+        planPage.hasCredentials = app.hasCredentials();
+
+        Functions.log("[OverviewPage.onCompleted] - hasCredentials : " + planPage.hasCredentials);
 
         // TODO remove test data
-        getAuthToken();
+        app.getAuthToken();
 
 //        var testData = "[{\"data\":[{\"theClass\":\"7a\",\"course\":\"BK\",\"hour\":\"2\",\"newCourse\":\"Geo\",\"room\":\"123\",\"type\":\"Verlegung\"},{\"theClass\":\"9b, 9c\",\"course\":\"Sp w\",\"hour\":\"5 - 6\",\"newCourse\":\"---\",\"room\":\"---\",\"type\":\"Entfall\"},{\"theClass\":\"11\",\"course\":\"e2\",\"hour\":\"3 - 4\",\"newCourse\":\"e2\",\"room\":\"105\",\"type\":\"eigenver. Arbeiten\"}],\"date\":\"25.10.2022 Dienstag, Woche A\"}]";
 //        var planData = JSON.parse(testData);

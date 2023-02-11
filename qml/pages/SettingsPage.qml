@@ -25,6 +25,7 @@ Page {
             sailDsbSettings.sync();
             if (credentialsChanged) {
                 Functions.log("[SettingsPage] Credentials have changed");
+                crendentialsChanged();
             } else if (filterChanged) {
                 Functions.log("[SettingsPage] Filter has changed to " + filterTextField.text);
                 applyChangedFilter();
