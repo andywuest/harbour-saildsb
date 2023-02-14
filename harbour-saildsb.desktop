@@ -4,7 +4,10 @@ X-Nemo-Application-Type=silica-qt5
 Icon=harbour-saildsb
 Exec=harbour-saildsb
 Name=SailDSB
-Name[de]=SailDSB
+
+[X-HarbourBackup]
+BackupPathList=.local/share/harbour-saildsb/
+BackupConfigList=/apps/harbour-saildsb/
 
 [X-Sailjail]
 OrganizationName=de.andreas-wuest-it-consulting
