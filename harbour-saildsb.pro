@@ -30,9 +30,7 @@ DISTFILES += qml/harbour-saildsb.qml \
     qml/js/constants.js \
     qml/js/functions.js \
     qml/pages/AboutPage.qml \
-    qml/pages/FirstPage.qml \
     qml/pages/OverviewPage.qml \
-    qml/pages/SecondPage.qml \
     qml/pages/SettingsPage.qml \
     qml/pages/icons/github.svg \
     qml/pages/icons/paypal.svg \
