@@ -54,21 +54,6 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
-    <message>
-        <source>Show Page 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>UI Template</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hello Sailors</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LoadingIndicator</name>
     <message>
         <source>Loading...</source>
@@ -89,22 +74,22 @@
     </message>
     <message>
         <source>Course</source>
-        <extracomment>OverviewPage purchase price</extracomment>
+        <extracomment>OverviewPage course</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Type</source>
-        <extracomment>OverviewPage current price</extracomment>
+        <extracomment>OverviewPage type</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Course new</source>
-        <extracomment>OverviewPage pieces/nominales</extracomment>
+        <extracomment>OverviewPage course new</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Room</source>
-        <extracomment>OverviewPage purchase price</extracomment>
+        <extracomment>OverviewPage room</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -128,15 +113,9 @@
         <source>Please provide valid credentials via the Settings to see the plans.</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>SecondPage</name>
     <message>
-        <source>Nested Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Item</source>
+        <source>Text</source>
+        <extracomment>OverviewPage text</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

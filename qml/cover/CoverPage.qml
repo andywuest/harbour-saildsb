@@ -177,9 +177,7 @@ CoverBackground {
                         font.pixelSize: Theme.fontSizeExtraSmall
                         font.bold: false
                     }
-
                 }
-
             }
         }
 
