@@ -149,7 +149,6 @@ Page {
                     id: planEntriesModel
                 }
 
-// TODO flatten
                 section {
                     property: "dateString"
                     criteria: ViewSection.FullString
@@ -168,8 +167,6 @@ Page {
                         console.log("selection position index : " + index);
                         console.log("position : " + selectedPosition);
                     }
-
-
 
                     Item {
                         id: resultItem
@@ -196,7 +193,6 @@ Page {
                                      angle: 15
                              }
                         }
-
 
                         Row {
                             id: resultRowInfo
@@ -245,16 +241,22 @@ Page {
                                     id: columnsRow1
                                     width: parent.width
                                     PlanEntryColumn {
-                                        width: parent.width / 2 * 1 - Theme.paddingSmall
-                                        //: OverviewPage purchase price
+                                        width: parent.width / 3 * 1 - Theme.paddingSmall
+                                        //: OverviewPage course
                                         columnLabel: Functions.resolveText(hour, qsTr("Course"))
                                         columnValue: course
                                     }
                                     PlanEntryColumn {
-                                        width: parent.width / 2 * 1 - Theme.paddingSmall
-                                        //: OverviewPage current price
+                                        width: parent.width / 3 * 1 - Theme.paddingSmall
+                                        //: OverviewPage type
                                         columnLabel: Functions.resolveText(hour, qsTr("Type"))
                                         columnValue: type
+                                    }
+                                    PlanEntryColumn {
+                                        width: parent.width / 3 * 1 - Theme.paddingSmall
+                                        //: OverviewPage room
+                                        columnLabel: Functions.resolveText(hour, qsTr("Room"))
+                                        columnValue: room
                                     }
                                 }
 
@@ -262,16 +264,16 @@ Page {
                                     id: columnsRow2
                                     width: parent.width
                                     PlanEntryColumn {
-                                        width: parent.width / 2 * 1 - Theme.paddingSmall
-                                        //: OverviewPage pieces/nominales
+                                        width: parent.width / 3 * 1 - Theme.paddingSmall
+                                        //: OverviewPage course new
                                         columnLabel: Functions.resolveText(hour, qsTr("Course new"))
                                         columnValue: newCourse
                                     }
                                     PlanEntryColumn {
-                                        width: parent.width / 2 * 1 - Theme.paddingSmall
-                                        //: OverviewPage purchase price
-                                        columnLabel: Functions.resolveText(hour, qsTr("Room"))
-                                        columnValue: room
+                                        width: parent.width / 3 * 2 - Theme.paddingSmall
+                                        //: OverviewPage text
+                                        columnLabel: Functions.resolveText(hour, qsTr("Text"))
+                                        columnValue: text
                                     }
                                 }
                             }
@@ -297,20 +299,7 @@ Page {
 
         Functions.log("[OverviewPage.onCompleted] - hasCredentials : " + planPage.hasCredentials);
 
-        // TODO remove test data
         app.getAuthToken();
-
-//        var testData = "[{\"data\":[{\"theClass\":\"7a\",\"course\":\"BK\",\"hour\":\"2\",\"newCourse\":\"Geo\",\"room\":\"123\",\"type\":\"Verlegung\"},{\"theClass\":\"9b, 9c\",\"course\":\"Sp w\",\"hour\":\"5 - 6\",\"newCourse\":\"---\",\"room\":\"---\",\"type\":\"Entfall\"},{\"theClass\":\"11\",\"course\":\"e2\",\"hour\":\"3 - 4\",\"newCourse\":\"e2\",\"room\":\"105\",\"type\":\"eigenver. Arbeiten\"}],\"date\":\"25.10.2022 Dienstag, Woche A\"}]";
-//        var planData = JSON.parse(testData);
-//        for (var i = 0; i < planData.length; i++) {
-//            var dayData = planData[i];
-//            for (var j = 0; j < dayData.data.length; j++) {
-//                planEntriesModel.append(dayData.data[j]);
-//                // add each entry mutliple times for scrolling
-//                planEntriesModel.append(dayData.data[j]);
-//                planEntriesModel.append(dayData.data[j]);
-//            }
-//        }
     }
 
     LoadingIndicator {

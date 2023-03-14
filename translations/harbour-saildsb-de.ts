@@ -6,73 +6,58 @@
     <message>
         <source>About</source>
         <extracomment>AboutPage - Header</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Über</translation>
     </message>
     <message>
         <source>SailDSB</source>
         <extracomment>AboutPage - Name</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>SailDSB</translation>
     </message>
     <message>
         <source>This is app is a native Sailfish OS client for the DSBMobile. SailDSB is open source and licensed under the GPL v3.</source>
         <extracomment>AboutPage text - about text</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Diese Anwendung ist ein nativer Sailfish OS Client für DSBMobile. SailDSB ist open-source und unter der GPL v3 lizensiert.</translation>
     </message>
     <message>
         <source>Sources</source>
         <extracomment>AboutPage - sources</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Quellen</translation>
     </message>
     <message>
         <source>Donations</source>
         <extracomment>AboutPage - Donations</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Spenden</translation>
     </message>
     <message>
         <source>If you like my work why not buy me a beer?</source>
         <extracomment>AboutPage - donations info</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Wenn Du meine Arbeit magst, warum gibst du mir nicht einfach ein Bier aus?</translation>
     </message>
     <message>
         <source>Donate with PayPal</source>
-        <translation type="unfinished"></translation>
+        <translation>Spenden via PayPal</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade...</translation>
     </message>
     <message>
         <source>Stand-ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertretungen</translation>
     </message>
     <message>
         <source>%1 :</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>FirstPage</name>
-    <message>
-        <source>Show Page 2</source>
-        <translation>Zur Seite 2</translation>
-    </message>
-    <message>
-        <source>UI Template</source>
-        <translation>UI-Vorlage</translation>
-    </message>
-    <message>
-        <source>Hello Sailors</source>
-        <translation>Hallo Matrosen</translation>
+        <translation>%1 :</translation>
     </message>
 </context>
 <context>
     <name>LoadingIndicator</name>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade...</translation>
     </message>
 </context>
 <context>
@@ -80,64 +65,58 @@
     <message>
         <source>About</source>
         <extracomment>OverviewPage about menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Über</translation>
     </message>
     <message>
         <source>Settings</source>
         <extracomment>OverviewPage settings menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Course</source>
-        <extracomment>OverviewPage purchase price</extracomment>
-        <translation type="unfinished"></translation>
+        <extracomment>OverviewPage course</extracomment>
+        <translation>Kurs</translation>
     </message>
     <message>
         <source>Type</source>
-        <extracomment>OverviewPage current price</extracomment>
-        <translation type="unfinished"></translation>
+        <extracomment>OverviewPage type</extracomment>
+        <translation>Art</translation>
     </message>
     <message>
         <source>Course new</source>
-        <extracomment>OverviewPage pieces/nominales</extracomment>
-        <translation type="unfinished"></translation>
+        <extracomment>OverviewPage course new</extracomment>
+        <translation>Kurz neu</translation>
     </message>
     <message>
         <source>Room</source>
-        <extracomment>OverviewPage purchase price</extracomment>
-        <translation type="unfinished"></translation>
+        <extracomment>OverviewPage room</extracomment>
+        <translation>Raum</translation>
     </message>
     <message>
         <source>Hour: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Stunde: %1</translation>
     </message>
     <message>
         <source>Refresh</source>
         <extracomment>OverviewPage settings menu item</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>No stand-in</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Vertretungen</translation>
     </message>
     <message>
         <source>Plans</source>
-        <translation type="unfinished"></translation>
+        <translation>Pläne</translation>
     </message>
     <message>
         <source>Please provide valid credentials via the Settings to see the plans.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SecondPage</name>
-    <message>
-        <source>Nested Page</source>
-        <translation>Unterseite</translation>
+        <translation>Bitte konfigurieren Sie gültige Zugangsdaten in den Einstellungen um die Pläne anzuzeigen.</translation>
     </message>
     <message>
-        <source>Item</source>
-        <translation>Element</translation>
+        <source>Text</source>
+        <extracomment>OverviewPage text</extracomment>
+        <translation>Text</translation>
     </message>
 </context>
 <context>
@@ -145,24 +124,24 @@
     <message>
         <source>Settings</source>
         <extracomment>SettingsPage settings title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>DSBMobile Credentials</source>
         <extracomment>SettingsPage section user name</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>DSBMobile Zugangsdaten</translation>
     </message>
     <message>
         <source>Filter</source>
         <extracomment>SettingsPage filter</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Filter</translation>
     </message>
 </context>
 <context>
     <name>harbour-saildsb</name>
     <message>
         <source>No credentials configured.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Zugangsdaten konfiguriert.</translation>
     </message>
 </context>
 </TS>
