@@ -37,7 +37,9 @@ private slots:
   // DSBMobile Backend
   void testParsePlanToJson();
   void testParseTimetable();
+  void testExtractTableColumns();
   void testExtractTableData();
+  void testMapFieldToJsonObject();
   void testGetNormalizedDateString();
 };
 

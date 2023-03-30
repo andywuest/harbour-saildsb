@@ -4,8 +4,36 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QTextCodec>
 
 #include "dsbparser.h"
+
+static QMap<QString, QString> MAP_ROW_COLUMNS_GSG_SILLENBUCH{
+    // general - headline
+    {"Stunde", "hour"},
+    {"Klasse(n)", "theClass"},
+    // row 1
+    {"(Fach)", "row1_column1"}, //
+    {"Art", "row1_column2"},    //
+    {"Raum", "row1_column3"},   //
+    // row 2
+    {"Fach", "row2_column1"}, //
+    {"Text", "row2_column2"}, //
+};
+
+static QMap<QString, QString> MAP_ROW_COLUMNS_RS_HUERTH{
+    // general - headline
+    {"Stunde", "hour"},
+    {"Klasse(n)", "theClass"},
+    // row 1
+    {"(Fach)", "row1_column1"}, //
+    {"Art", "row1_column2"},    //
+    {"Raum", "row1_column3"},   //
+    // row 2
+    {"(Lehrer)", "row2_column1"},    //
+    {"Text", "row2_column2"},        //
+    {"Vertreter", "row2_column3"}, //
+};
 
 DsbMobileBackend::DsbMobileBackend(QNetworkAccessManager *networkAccessManager,
                                    QObject *parent)
@@ -39,7 +67,8 @@ void DsbMobileBackend::getAuthToken(const QString &user,
   executeGetAuthToken(QUrl(QString(URL_LOGIN).arg(user, password)));
 }
 
-void DsbMobileBackend::getPlans(const QString &authToken) {
+void DsbMobileBackend::getPlans(const QString &authToken, const int schoolId) {
+  this->schoolId = schoolId;
   executeGetPlans(QUrl(QString(URL_TIMETABLES).arg(authToken)));
 }
 
@@ -142,11 +171,15 @@ void DsbMobileBackend::handleGetTimetableFinished() {
   }
 
   QByteArray responseData = reply->readAll();
-  QString result = QString(responseData);
+  //  QString result = QString(responseData);
+
+  QTextCodec *windows1250Codec = QTextCodec::codecForName("Windows-1252");
+  QString result = windows1250Codec->toUnicode(responseData);
 
   // TODO instantiate in constructor
   DsbParser *dsbParser = new DsbParser();
-  QJsonObject jsonObject = dsbParser->parseHtmlToJson(result);
+  QJsonObject jsonObject = dsbParser->parseHtmlToJson(
+      result, getRowMappingForSchool(this->schoolId));
   timetableResults.append(jsonObject);
 
   if (timetableResults.size() == this->numberOfPlans) {
@@ -164,6 +197,21 @@ void DsbMobileBackend::handleGetTimetableFinished() {
     QString dataToString(resultDocument.toJson());
 
     emit plansAvailable(dataToString);
+  }
+}
+
+QMap<QString, QString>
+DsbMobileBackend::getRowMappingForSchool(const int schoolId) {
+  switch (schoolId) {
+  // same constants as in constants.js
+  case 0:
+    return MAP_ROW_COLUMNS_GSG_SILLENBUCH;
+  case 1:
+    return MAP_ROW_COLUMNS_RS_HUERTH;
+  case 2:
+  default:
+    qDebug() << "School with id " << schoolId << "not defined !";
+    return QMap<QString, QString>();
   }
 }
 

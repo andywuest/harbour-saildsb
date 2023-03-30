@@ -6,6 +6,7 @@ import "pages"
 import "cover"
 
 import "js/functions.js" as Functions
+import "js/constants.js" as Constants
 
 ApplicationWindow
 {
@@ -56,7 +57,7 @@ ApplicationWindow
     function authTokenResultHandler(result) {
         Functions.log("[OverviewPage] auth token received - " + result);
         app.authToken = result;
-        dsbMobileBackend.getPlans(authToken);
+        dsbMobileBackend.getPlans(authToken, sailDsbSettings.schoolId);
     }
 
     // Global Settings Storage
@@ -64,6 +65,7 @@ ApplicationWindow
         id: sailDsbSettings
         path: "/apps/harbour-saildsb/settings"
 
+        property int schoolId: Constants.GSG_SILLENBUCH
         property string userName
         property string password
         property string filter // comma separated filter values, e.g. "5c, 8a"

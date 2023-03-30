@@ -13,6 +13,12 @@ Page {
     property var planData
     property bool hasCredentials : false
 
+    property string row1Column1Label: ""
+    property string row1Column2Label: ""
+    property string row1Column3Label: ""
+    property string row2Column1Label: ""
+    property string row2Column2Label: ""
+
     allowedOrientations: Orientation.Portrait
 
     function receiveCredentialsChanged() {
@@ -57,6 +63,17 @@ Page {
         for (var i = 0; i < planPage.planData.length; i++) {
             var dayData = planPage.planData[i];
             var allFiltered = true;
+
+            planEntriesHeader.description = dayData.title;
+
+            if (dayData.labels) {
+                row1Column1Label = dayData.labels.row1_column1;
+                row1Column2Label = dayData.labels.row1_column2;
+                row1Column3Label = dayData.labels.row1_column3;
+                row2Column1Label = dayData.labels.row2_column1;
+                row2Column2Label = dayData.labels.row2_column2;
+            }
+
             if (dayData.data.length > 0) {
                 for (var j = 0; j < dayData.data.length; j++) {
                     var planDay = dayData.data[j];
@@ -67,7 +84,7 @@ Page {
                         planEntriesModel.append(planDay);
                         allFiltered = false;
                     }
-                    planEntriesHeader.description = dayData.title;
+
                 }
                 if (allFiltered) {
                     addNoStandInEntry(dayData.dateString);
@@ -243,20 +260,20 @@ Page {
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage course
-                                        columnLabel: Functions.resolveText(hour, qsTr("Course"))
-                                        columnValue: course
+                                        columnLabel: row1Column1Label //Functions.resolveText(hour, qsTr("Course"))
+                                        columnValue: row1_column1
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage type
-                                        columnLabel: Functions.resolveText(hour, qsTr("Type"))
-                                        columnValue: type
+                                        columnLabel: row1Column2Label //Functions.resolveText(hour, qsTr("Type"))
+                                        columnValue: row1_column2
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage room
-                                        columnLabel: Functions.resolveText(hour, qsTr("Room"))
-                                        columnValue: room
+                                        columnLabel: row1Column3Label //Functions.resolveText(hour, qsTr("Room"))
+                                        columnValue: row1_column3
                                     }
                                 }
 
@@ -266,14 +283,14 @@ Page {
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage course new
-                                        columnLabel: Functions.resolveText(hour, qsTr("Course new"))
-                                        columnValue: newCourse
+                                        columnLabel: row2Column1Label // Functions.resolveText(hour, qsTr("Course new"))
+                                        columnValue: row2_column1
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 2 - Theme.paddingSmall
                                         //: OverviewPage text
-                                        columnLabel: Functions.resolveText(hour, qsTr("Text"))
-                                        columnValue: text
+                                        columnLabel: row2Column2Label //Functions.resolveText(hour, qsTr("Text"))
+                                        columnValue: row2_column2
                                     }
                                 }
                             }

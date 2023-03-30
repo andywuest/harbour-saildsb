@@ -73,26 +73,6 @@
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <source>Course</source>
-        <extracomment>OverviewPage course</extracomment>
-        <translation>Kurs</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <extracomment>OverviewPage type</extracomment>
-        <translation>Art</translation>
-    </message>
-    <message>
-        <source>Course new</source>
-        <extracomment>OverviewPage course new</extracomment>
-        <translation>Kurz neu</translation>
-    </message>
-    <message>
-        <source>Room</source>
-        <extracomment>OverviewPage room</extracomment>
-        <translation>Raum</translation>
-    </message>
-    <message>
         <source>Hour: %1</source>
         <translation>Stunde: %1</translation>
     </message>
@@ -113,11 +93,6 @@
         <source>Please provide valid credentials via the Settings to see the plans.</source>
         <translation>Bitte konfigurieren Sie gültige Zugangsdaten in den Einstellungen um die Pläne anzuzeigen.</translation>
     </message>
-    <message>
-        <source>Text</source>
-        <extracomment>OverviewPage text</extracomment>
-        <translation>Text</translation>
-    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -135,6 +110,24 @@
         <source>Filter</source>
         <extracomment>SettingsPage filter</extracomment>
         <translation>Filter</translation>
+    </message>
+    <message>
+        <source>School</source>
+        <extracomment>SettingsPage state</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GSG Sillenbuch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Realschule Hürth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the school</source>
+        <extracomment>SettingsPage region description</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

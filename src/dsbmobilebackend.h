@@ -13,7 +13,7 @@ public:
   ~DsbMobileBackend();
 
   Q_INVOKABLE void getAuthToken(const QString &user, const QString &password);
-  Q_INVOKABLE void getPlans(const QString &authToken);
+  Q_INVOKABLE void getPlans(const QString &authToken, const int schoolId);
 
   Q_SIGNAL void authTokenAvailable(const QString &authToken);
   Q_SIGNAL void plansAvailable(const QString &result);
@@ -25,9 +25,11 @@ protected:
   QNetworkRequest prepareNetworkRequest(const QUrl url, bool contentTypeJson);
 
   void connectErrorSlot(QNetworkReply *reply);
+  QMap<QString, QString> getRowMappingForSchool(const int schoolId);
 
 private:
   int numberOfPlans = 0;
+  int schoolId = -1;
   QList<QJsonObject> timetableResults;
 
   void executeGetAuthToken(const QUrl &url);

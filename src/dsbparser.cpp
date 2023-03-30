@@ -54,6 +54,19 @@ QList<QString> DsbParser::extractPlanLines(QString planTableData) {
   }
 }
 
+QList<QString> DsbParser::extractTableColumns(QString planTableHeadline) {
+  if (!planTableHeadline.startsWith("<th")) {
+    return QList<QString>();
+  } else {
+    QString headline = planTableHeadline
+                           .replace(QRegExp("^<th>"), "") //
+                           .replace(" width='16'", "")   //
+                           .replace("</th></tr>", "");    //
+    qDebug() << "headline vor spit : " << headline;
+    return headline.split("</th><th>");
+  }
+}
+
 QString DsbParser::getNormalizedDateString(const QString &dateString) {
   QDate date = QDate::fromString(dateString, "d.M.yyyy");
   if (date.isValid()) {
@@ -73,10 +86,12 @@ QString DsbParser::extractTableData(const QString &planData) {
   return subString.toString().remove("\n");
 }
 
-QJsonObject DsbParser::parseHtmlToJson(const QString &planInHtml) {
+QJsonObject
+DsbParser::parseHtmlToJson(const QString &planInHtml,
+                           const QMap<QString, QString> schoolLabelMap) {
   qDebug() << "0" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
-  QString planInHtmlCopy = QString(planInHtml);
+  QString planInHtmlCopy = QString(planInHtml.toUtf8());
   QRegularExpression dateRegExp(
       "<div class=\"mon_title\">([\\.\\,\\w\\s]+)</div>");
   QRegularExpression dateOnlyRegExp(
@@ -116,10 +131,16 @@ QJsonObject DsbParser::parseHtmlToJson(const QString &planInHtml) {
   // qDebug() << "3" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
   QJsonArray resultArray;
+  QJsonObject labels;
+
+  QList<QString> headlineList;
   for (int i = 0; i < lines.size(); ++i) {
     qDebug() << lines.at(i);
     QString line = lines.at(i);
-    if (line.indexOf("<th") != -1 || line.isEmpty()) {
+    if (line.indexOf("<th") != -1) {
+      headlineList = extractTableColumns(line);
+      continue;
+    } else if (line.isEmpty()) {
       continue;
     }
 
@@ -132,26 +153,24 @@ QJsonObject DsbParser::parseHtmlToJson(const QString &planInHtml) {
                             .replace("\n", "");
 
     QStringList splitList = tokenLine.split("|");
+    QJsonObject entry;
 
-    if (splitList.length() == 7) {
-      QJsonObject entry;
-      entry.insert("theClass", splitList.at(0));
-      entry.insert("hour", splitList.at(1));
-      entry.insert("course", splitList.at(2));
-      entry.insert("type", splitList.at(3));
-      entry.insert("newCourse", splitList.at(4));
-      entry.insert("room", splitList.at(5));
-      entry.insert("text", splitList.at(6));
-
-      qDebug() << " adding entry ";
-
-      resultArray.push_back(entry);
-
-    } else {
-      qDebug() << "unexpected length of splitList !";
+    for (int i = 0; i < splitList.length(); i++) {
+      mapFieldToJsonObject(i, schoolLabelMap, headlineList, &entry, splitList);
     }
 
-    qDebug() << "4" << QTime::currentTime().toString("hh:mm:ss.zzz");
+    // kein keys aufruf
+    for (auto key : schoolLabelMap.keys()) {
+      labels.insert(schoolLabelMap[key], key);
+    }
+
+    if (entry.size() > 0) {
+      qDebug() << " adding entry ";
+      resultArray.push_back(entry);
+    } else {
+      qDebug() << "unexpected length of splitList -> length : "
+               << splitList.length();
+    }
 
     qDebug() << tokenLine;
   }
@@ -165,13 +184,26 @@ QJsonObject DsbParser::parseHtmlToJson(const QString &planInHtml) {
                            .replace(QRegExp("\\s*$"), "");
 
   qDebug() << "school data : " << schoolData;
-
-  // qDebug() << " Table : \n" << tableNoClasses;
+  qDebug() << "days : " << resultArray.size();
 
   QJsonObject planObject;
   planObject.insert("dateString", matchedDate);
   planObject.insert("date", matchedDateOnly);
   planObject.insert("data", resultArray);
+  planObject.insert("labels", labels);
   planObject.insert("title", schoolData);
   return planObject;
+}
+
+void DsbParser::mapFieldToJsonObject(int index,
+                                     QMap<QString, QString> specificMapping,
+                                     QList<QString> headlineList,
+                                     QJsonObject *entryObj,
+                                     QStringList splitList) {
+  QJsonObject *entry = dynamic_cast<QJsonObject *>(entryObj);
+  if (index < headlineList.length()) {
+    QString headlineText = headlineList.at(index);
+    QString jsonKey = specificMapping.value(headlineText, "??");
+    entry->insert(jsonKey, splitList.at(index));
+  }
 }
