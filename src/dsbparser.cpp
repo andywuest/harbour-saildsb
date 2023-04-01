@@ -60,7 +60,7 @@ QList<QString> DsbParser::extractTableColumns(QString planTableHeadline) {
   } else {
     QString headline = planTableHeadline
                            .replace(QRegExp("^<th>"), "") //
-                           .replace(" width='16'", "")   //
+                           .replace(" width='16'", "")    //
                            .replace("</th></tr>", "");    //
     qDebug() << "headline vor spit : " << headline;
     return headline.split("</th><th>");
@@ -110,7 +110,6 @@ DsbParser::parseHtmlToJson(const QString &planInHtml,
   QString matchedDateOnly("-");
   QRegularExpressionMatch dateOnlyMatch = dateOnlyRegExp.match(planInHtml);
   if (dateOnlyMatch.hasMatch()) {
-    qDebug() << "XXXXXXXXXXXXXXXXXXXXX match : " << matchedDateOnly;
     matchedDateOnly = planInHtml.mid(dateOnlyMatch.capturedStart(1),
                                      dateOnlyMatch.capturedEnd(1) -
                                          dateOnlyMatch.capturedStart(1));
@@ -120,22 +119,16 @@ DsbParser::parseHtmlToJson(const QString &planInHtml,
     qDebug() << "dateOnly no match : " << matchedDateOnly;
   }
 
-  // qDebug() << "1" << QTime::currentTime().toString("hh:mm:ss.zzz");
-
   QString tableDataOnly = extractTableData(planInHtml);
-
-  // qDebug() << "2" << QTime::currentTime().toString("hh:mm:ss.zzz");
-
   QStringList lines = extractPlanLines(tableDataOnly);
-
-  // qDebug() << "3" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
   QJsonArray resultArray;
   QJsonObject labels;
 
   QList<QString> headlineList;
   for (int i = 0; i < lines.size(); ++i) {
-    qDebug() << lines.at(i);
+    // qDebug() << lines.at(i);
+
     QString line = lines.at(i);
     if (line.indexOf("<th") != -1) {
       headlineList = extractTableColumns(line);
@@ -144,28 +137,27 @@ DsbParser::parseHtmlToJson(const QString &planInHtml,
       continue;
     }
 
-    QString tokenLine = line.replace("<td >", "<td>")  //
-                            .replace("</td><td>", "|") //
-                            .replace("</td></tr>", "") //
-                            .replace("<td>", "")       //
-                            .replace("&nbsp;", "")     //
-                            .replace("\r", "")         //
-                            .replace("\n", "");
+    const QString tokenLine = line.replace("<td >", "<td>")  //
+                                  .replace("</td><td>", "|") //
+                                  .replace("</td></tr>", "") //
+                                  .replace("<td>", "")       //
+                                  .replace("&nbsp;", "")     //
+                                  .replace("\r", "")         //
+                                  .replace("\n", "");
 
-    QStringList splitList = tokenLine.split("|");
+    const QStringList splitList = tokenLine.split("|");
     QJsonObject entry;
 
     for (int i = 0; i < splitList.length(); i++) {
       mapFieldToJsonObject(i, schoolLabelMap, headlineList, &entry, splitList);
     }
 
-    // kein keys aufruf
-    for (auto key : schoolLabelMap.keys()) {
+    const QList<QString> keys = schoolLabelMap.keys();
+    for (const auto &key : keys) {
       labels.insert(schoolLabelMap[key], key);
     }
 
     if (entry.size() > 0) {
-      qDebug() << " adding entry ";
       resultArray.push_back(entry);
     } else {
       qDebug() << "unexpected length of splitList -> length : "

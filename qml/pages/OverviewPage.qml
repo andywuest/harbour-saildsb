@@ -18,6 +18,8 @@ Page {
     property string row1Column3Label: ""
     property string row2Column1Label: ""
     property string row2Column2Label: ""
+    property string row3Column1Label: ""
+    property bool row3Visible: false
 
     allowedOrientations: Orientation.Portrait
 
@@ -72,6 +74,10 @@ Page {
                 row1Column3Label = dayData.labels.row1_column3;
                 row2Column1Label = dayData.labels.row2_column1;
                 row2Column2Label = dayData.labels.row2_column2;
+                if (Functions.hasSchoolThreeRows(sailDsbSettings.schoolId)) {
+                    row3Visible = true;
+                    row3Column1Label = dayData.labels.row3_column1;
+                }
             }
 
             if (dayData.data.length > 0) {
@@ -221,6 +227,7 @@ Page {
                             Column {
                                 width: parent.width
                                 height: titleRow.height + columnsRow1.height + columnsRow2.height
+                                       + (row3Visible ? columnsRow3.height : 0)
 
                                 Row {
                                     id: titleRow
@@ -260,19 +267,19 @@ Page {
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage course
-                                        columnLabel: row1Column1Label //Functions.resolveText(hour, qsTr("Course"))
+                                        columnLabel: row1Column1Label
                                         columnValue: row1_column1
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage type
-                                        columnLabel: row1Column2Label //Functions.resolveText(hour, qsTr("Type"))
+                                        columnLabel: row1Column2Label
                                         columnValue: row1_column2
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage room
-                                        columnLabel: row1Column3Label //Functions.resolveText(hour, qsTr("Room"))
+                                        columnLabel: row1Column3Label
                                         columnValue: row1_column3
                                     }
                                 }
@@ -283,18 +290,29 @@ Page {
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage course new
-                                        columnLabel: row2Column1Label // Functions.resolveText(hour, qsTr("Course new"))
+                                        columnLabel: row2Column1Label
                                         columnValue: row2_column1
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 2 - Theme.paddingSmall
                                         //: OverviewPage text
-                                        columnLabel: row2Column2Label //Functions.resolveText(hour, qsTr("Text"))
+                                        columnLabel: row2Column2Label
                                         columnValue: row2_column2
                                     }
                                 }
-                            }
 
+                                Row {
+                                    id: columnsRow3
+                                    width: parent.width
+                                    visible: row3Visible
+                                    PlanEntryColumn {
+                                        width: parent.width
+                                        //: OverviewPage course new
+                                        columnLabel: row3Column1Label
+                                        columnValue: row3_column1
+                                    }
+                                }
+                            }
                          }
 
                         RowSeparator {

@@ -26,13 +26,14 @@ static QMap<QString, QString> MAP_ROW_COLUMNS_RS_HUERTH{
     {"Stunde", "hour"},
     {"Klasse(n)", "theClass"},
     // row 1
-    {"(Fach)", "row1_column1"}, //
-    {"Art", "row1_column2"},    //
-    {"Raum", "row1_column3"},   //
+    {"(Fach)", "row1_column1"},
+    {"Art", "row1_column2"},
+    {"Raum", "row1_column3"},
     // row 2
-    {"(Lehrer)", "row2_column1"},    //
-    {"Text", "row2_column2"},        //
-    {"Vertreter", "row2_column3"}, //
+    {"(Lehrer)", "row2_column1"},
+    {"Text", "row2_column2"},
+    // row 3
+    {"Vertreter", "row3_column1"},
 };
 
 DsbMobileBackend::DsbMobileBackend(QNetworkAccessManager *networkAccessManager,
