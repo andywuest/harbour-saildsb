@@ -39,5 +39,5 @@ function hasCredentials(userName, password) {
 }
 
 function hasSchoolThreeRows(schoolId) {
-    return SCHOOL_ROWS_MAP[schoolId];
+    return SCHOOL_ROWS_MAP[schoolId] === 3;
 }

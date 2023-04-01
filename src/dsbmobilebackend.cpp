@@ -8,7 +8,7 @@
 
 #include "dsbparser.h"
 
-static QMap<QString, QString> MAP_ROW_COLUMNS_GSG_SILLENBUCH{
+QMap<QString, QString> DsbMobileBackend::MAP_ROW_COLUMNS_GSG_SILLENBUCH{
     // general - headline
     {"Stunde", "hour"},
     {"Klasse(n)", "theClass"},
@@ -21,7 +21,7 @@ static QMap<QString, QString> MAP_ROW_COLUMNS_GSG_SILLENBUCH{
     {"Text", "row2_column2"}, //
 };
 
-static QMap<QString, QString> MAP_ROW_COLUMNS_RS_HUERTH{
+QMap<QString, QString> DsbMobileBackend::MAP_ROW_COLUMNS_RS_HUERTH{
     // general - headline
     {"Stunde", "hour"},
     {"Klasse(n)", "theClass"},

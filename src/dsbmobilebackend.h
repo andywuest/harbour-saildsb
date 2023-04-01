@@ -27,6 +27,9 @@ protected:
   void connectErrorSlot(QNetworkReply *reply);
   QMap<QString, QString> getRowMappingForSchool(const int schoolId);
 
+  static QMap<QString, QString> MAP_ROW_COLUMNS_GSG_SILLENBUCH;
+  static QMap<QString, QString> MAP_ROW_COLUMNS_RS_HUERTH;
+
 private:
   int numberOfPlans = 0;
   int schoolId = -1;

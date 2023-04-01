@@ -59,6 +59,7 @@ Page {
 
     function addPlanDataToModel() {
         Functions.log("[OverviewPage] - addPlanDataToModel called.");
+        Functions.log("[OverviewPage] - schoolId : " + sailDsbSettings.schoolId);
         planEntriesModel.clear();
 
         var filterTokens = Functions.getFilterTokens(sailDsbSettings.filter)
@@ -77,6 +78,8 @@ Page {
                 if (Functions.hasSchoolThreeRows(sailDsbSettings.schoolId)) {
                     row3Visible = true;
                     row3Column1Label = dayData.labels.row3_column1;
+                } else {
+                    row3Visible = false;
                 }
             }
 
