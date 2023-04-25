@@ -12,6 +12,11 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* 25.04.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.2-1
+
+- Added specific schools to be selectable (only two implemented so far)
+- Dynamic header labeling as in original app (no header name guessing)
+
 * 16.03.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.1-1
 
 - Initial harbour release
@@ -20,4 +25,3 @@
 * 14.02.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.0-1
 
 - Initial release
-

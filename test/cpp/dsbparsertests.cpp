@@ -20,6 +20,20 @@
 
 void DsbParserTests::init() { dsbParser = new DsbParser(); }
 
+// TODO use from DsbMobileBakcned
+QMap<QString, QString> MAP_ROW_COLUMNS_GSG_SILLENBUCH{
+    // general - headline
+    {"Stunde", "hour"},
+    {"Klasse(n)", "theClass"},
+    // row 1
+    {"(Fach)", "row1_column1"}, //
+    {"Art", "row1_column2"},    //
+    {"Raum", "row1_column3"},   //
+    // row 2
+    {"Fach", "row2_column1"}, //
+    {"Text", "row2_column2"}, //
+};
+
 void DsbParserTests::testParseTimetable() {
   QByteArray data = readFileData("timetable.json");
   QVERIFY2(data.length() > 0, "Testfile not found!");
@@ -42,7 +56,7 @@ void DsbParserTests::testParsePlanToJson() {
   QByteArray data = readFileData("plan.html");
   QVERIFY2(data.length() > 0, "Testfile not found!");
 
-  const QJsonObject jsonPlanObject = dsbParser->parseHtmlToJson(QString(data));
+  const QJsonObject jsonPlanObject = dsbParser->parseHtmlToJson(QString(data), MAP_ROW_COLUMNS_GSG_SILLENBUCH);
   QCOMPARE(jsonPlanObject["data"].isArray(), true);
   QCOMPARE(jsonPlanObject["date"].isString(), true);
   QCOMPARE(jsonPlanObject["title"].isString(), true);
@@ -59,11 +73,11 @@ void DsbParserTests::testParsePlanToJson() {
   const QJsonArray planData = jsonPlanObject["data"].toArray();
   QCOMPARE(planData.size(), 3);
   QCOMPARE(planData.at(0).toObject().value("theClass"), "7a");
-  QCOMPARE(planData.at(0).toObject().value("course"), "BK");
+  QCOMPARE(planData.at(0).toObject().value("row1_column1"), "BK");
   QCOMPARE(planData.at(0).toObject().value("hour"), "2");
-  QCOMPARE(planData.at(0).toObject().value("newCourse"), "Geo");
-  QCOMPARE(planData.at(0).toObject().value("room"), "123");
-  QCOMPARE(planData.at(0).toObject().value("type"), "Verlegung");
+  QCOMPARE(planData.at(0).toObject().value("row2_column1"), "Geo");
+  QCOMPARE(planData.at(0).toObject().value("row1_column3"), "123");
+  QCOMPARE(planData.at(0).toObject().value("row1_column2"), "Verlegung");
 }
 
 void DsbParserTests::testExtractTableColumns() {
