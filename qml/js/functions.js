@@ -37,3 +37,7 @@ function isFilterTokenMatch(value, filterTokens) {
 function hasCredentials(userName, password) {
     return (userName && userName.length > 0 && password && password.length > 0);
 }
+
+function hasSchoolThreeRows(schoolId) {
+    return SCHOOL_ROWS_MAP[schoolId] === 3;
+}

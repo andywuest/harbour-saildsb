@@ -7,6 +7,7 @@ import Nemo.Configuration 1.0
 import "."
 
 import "../js/functions.js" as Functions
+import "../js/constants.js" as Constants
 
 Page {
     id: settingsPage
@@ -22,6 +23,7 @@ Page {
             sailDsbSettings.userName = userNameTextField.text;
             sailDsbSettings.password = passwordTextField.text;
             sailDsbSettings.filter = filterTextField.text;
+            sailDsbSettings.schoolId = schoolComboBox.currentIndex
             sailDsbSettings.sync();
             if (credentialsChanged) {
                 Functions.log("[SettingsPage] Credentials have changed");
@@ -50,6 +52,26 @@ Page {
             PageHeader {
                 //: SettingsPage settings title
                 title: qsTr("Settings")
+            }
+
+            ComboBox {
+                id: schoolComboBox
+                //: SettingsPage state
+                label: qsTr("School")
+                currentIndex: sailDsbSettings.schoolId
+                //: SettingsPage region description
+                description: qsTr("Select the school")
+                menu: ContextMenu {
+                    id: schoolMenu
+                    MenuItem {
+                        readonly property int value: Constants.GSG_SILLENBUCH
+                        text: qsTr("GSG Sillenbuch");
+                    }
+                    MenuItem {
+                        readonly property int value: Constants.RS_HUERTH
+                        text: qsTr("Realschule Hürth")
+                    }
+                }
             }
 
             SectionHeader {
@@ -82,5 +104,7 @@ Page {
         }
 
     }
+
+//194962/plan
 
 }

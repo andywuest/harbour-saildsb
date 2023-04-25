@@ -47,6 +47,10 @@ CoverBackground {
         coverModel.clear();
 
         var filterTokens = Functions.getFilterTokens(sailDsbSettings.filter)
+        if (!coverPage.planData) {
+            return;
+        }
+
         for (var i = 0; i < coverPage.planData.length; i++) {
             var dayData = coverPage.planData[i];
             var allFiltered = true;

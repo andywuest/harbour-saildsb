@@ -66,6 +66,65 @@ void DsbParserTests::testParsePlanToJson() {
   QCOMPARE(planData.at(0).toObject().value("type"), "Verlegung");
 }
 
+void DsbParserTests::testExtractTableColumns() {
+  // given
+  QString headlineData =
+      QString("<th>Klasse(n)</th><th>Stunde</th><th>(Fach)</th><th>Art</"
+              "th><th>Fach</th><th>Raum</th><th>Text</th></tr>");
+
+  // when
+  QList<QString> result = dsbParser->extractTableColumns(headlineData);
+
+  // then
+  QVERIFY2(result.length() == 7, "Invalid number of list elements");
+  QCOMPARE(result.at(0), "Klasse(n)");
+  QCOMPARE(result.at(1), "Stunde");
+  QCOMPARE(result.at(2), "(Fach)");
+  QCOMPARE(result.at(3), "Art");
+  QCOMPARE(result.at(4), "Fach");
+  QCOMPARE(result.at(5), "Raum");
+  QCOMPARE(result.at(6), "Text");
+}
+
+void DsbParserTests::testMapFieldToJsonObject() {
+  // given
+  // TODO access QMAP from class
+  static QMap<QString, QString> MAP_ROW_COLUMNS_GSG{
+      // general - headline
+      {"Stunde", "hour"},
+      {"Klasse(n)", "theClass"},
+      // row 1
+      {"Fach", "row1_column1"}, //
+      {"Art", "row1_column2"},  //
+      {"Raum", "row1_column3"}, //
+      // row 2
+      {"(Fach)", "row2_column1"}, //
+      {"Text", "row2_column2"},   //
+  };
+  QList<QString> headlineList = QList<QString>() << "Klasse(n)"
+                                                 << "Stunde"
+                                                 << "(Fach)";
+  QJsonObject entry;
+  QString data("5c|1-2|M");
+
+  // when
+  dsbParser->mapFieldToJsonObject(0, MAP_ROW_COLUMNS_GSG, headlineList, &entry,
+                                  data.split("|"));
+  dsbParser->mapFieldToJsonObject(1, MAP_ROW_COLUMNS_GSG, headlineList, &entry,
+                                  data.split("|"));
+  dsbParser->mapFieldToJsonObject(2, MAP_ROW_COLUMNS_GSG, headlineList, &entry,
+                                  data.split("|"));
+  dsbParser->mapFieldToJsonObject(9, MAP_ROW_COLUMNS_GSG, headlineList, &entry,
+                                  data.split("|")); // out of range, ignored
+
+  // then
+  QVERIFY2(entry.length() == 3, "JSON Object has wrong size.");
+  qDebug() << entry;
+  QCOMPARE(entry["theClass"], "5c");
+  QCOMPARE(entry["hour"], "1-2");
+  QCOMPARE(entry["row2_column1"], "M");
+}
+
 void DsbParserTests::testExtractTableData() {
   QByteArray data = readFileData("plan.html");
   QVERIFY2(data.length() > 0, "Testfile not found!");
