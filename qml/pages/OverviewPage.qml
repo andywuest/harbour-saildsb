@@ -80,6 +80,7 @@ Page {
                     row3Column1Label = dayData.labels.row3_column1;
                 } else {
                     row3Visible = false;
+                    row3Column1Label = "";
                 }
             }
 
