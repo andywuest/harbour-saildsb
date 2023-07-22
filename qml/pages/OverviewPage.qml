@@ -69,7 +69,8 @@ Page {
 
             planEntriesHeader.description = dayData.title;
 
-            if (dayData.labels) {
+
+            if (dayData.data.length > 0 && dayData.labels) {
                 row1Column1Label = dayData.labels.row1_column1;
                 row1Column2Label = dayData.labels.row1_column2;
                 row1Column3Label = dayData.labels.row1_column3;

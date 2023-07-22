@@ -67,7 +67,7 @@ CoverBackground {
                 }
                 coverModel.append(createCoveModelEntry(dayData.date, standInCount));
             } else {
-                coverModel.append(createCoveModelEntry(dayData.date, "?"));
+                coverModel.append(createCoveModelEntry(dayData.date, "0"));
             }
         }
     }
