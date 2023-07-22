@@ -12,6 +12,10 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* xx.xx.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.3-1
+
+- fixed error when there is no data
+
 * 25.04.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.2-1
 
 - Added specific schools to be selectable (only two implemented so far)
