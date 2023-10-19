@@ -65,14 +65,14 @@ CoverBackground {
                         allFiltered = false;
                     }
                 }
-                coverModel.append(createCoveModelEntry(dayData.date, standInCount));
+                coverModel.append(createCoverModelEntry(dayData.date, standInCount));
             } else {
-                coverModel.append(createCoveModelEntry(dayData.date, "0"));
+                coverModel.append(createCoverModelEntry(dayData.date, 0));
             }
         }
     }
 
-    function createCoveModelEntry(date, standInCount) {
+    function createCoverModelEntry(date, standInCount) {
         var entry = {};
         entry.date = date;
         entry.numberOfStandins = standInCount;

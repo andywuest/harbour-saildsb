@@ -8,6 +8,13 @@ function log(message) {
     }
 }
 
+function toStr(value) {
+  if (value) {
+      return '' + value;
+  }
+  return '';
+}
+
 function resolveText(indicator, value) {
   return indicator ? value : "";
 }

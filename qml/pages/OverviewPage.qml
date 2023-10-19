@@ -69,7 +69,6 @@ Page {
 
             planEntriesHeader.description = dayData.title;
 
-
             if (dayData.data.length > 0 && dayData.labels) {
                 row1Column1Label = dayData.labels.row1_column1;
                 row1Column2Label = dayData.labels.row1_column2;
@@ -273,19 +272,19 @@ Page {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage course
                                         columnLabel: row1Column1Label
-                                        columnValue: row1_column1
+                                        columnValue: Functions.toStr(row1_column1)
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage type
                                         columnLabel: row1Column2Label
-                                        columnValue: row1_column2
+                                        columnValue: Functions.toStr(row1_column2)
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage room
                                         columnLabel: row1Column3Label
-                                        columnValue: row1_column3
+                                        columnValue: Functions.toStr(row1_column3)
                                     }
                                 }
 
@@ -296,13 +295,13 @@ Page {
                                         width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage course new
                                         columnLabel: row2Column1Label
-                                        columnValue: row2_column1
+                                        columnValue: Functions.toStr(row2_column1)
                                     }
                                     PlanEntryColumn {
                                         width: parent.width / 3 * 2 - Theme.paddingSmall
                                         //: OverviewPage text
                                         columnLabel: row2Column2Label
-                                        columnValue: row2_column2
+                                        columnValue: Functions.toStr(row2_column2)
                                     }
                                 }
 
@@ -314,7 +313,7 @@ Page {
                                         width: parent.width
                                         //: OverviewPage course new
                                         columnLabel: row3Column1Label
-                                        columnValue: row3_column1
+                                        columnValue: Functions.toStr(row3_column1)
                                     }
                                 }
                             }
