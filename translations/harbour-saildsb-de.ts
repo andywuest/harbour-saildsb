@@ -136,5 +136,9 @@
         <source>No credentials configured.</source>
         <translation>Keine Zugangsdaten konfiguriert.</translation>
     </message>
+    <message>
+        <source>No plan data found.</source>
+        <translation>Keine Pläne gefunden.</translation>
+    </message>
 </context>
 </TS>

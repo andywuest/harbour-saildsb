@@ -150,8 +150,9 @@ void DsbMobileBackend::processGetPlansResult(QNetworkReply *reply) {
             SLOT(handleGetTimetableFinished()));
   }
 
-  //  emit authTokenAvailable(result);
-  // emit plansAvailable("plans available");
+  if (planUrls.isEmpty()) {
+      emit plansAvailable("no");
+  }
 }
 
 bool compareByDate(const QJsonObject &obj1, const QJsonObject &obj2) {

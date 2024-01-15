@@ -136,5 +136,9 @@
         <source>No credentials configured.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No plan data found.</source>
+        <translation></translation>
+    </message>
 </context>
 </TS>

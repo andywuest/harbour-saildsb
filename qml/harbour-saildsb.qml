@@ -31,7 +31,11 @@ ApplicationWindow
 
     function plansResultHandler(result) {
         Functions.log("[ApplicationWindow] plan data received - " + result);
-        planDataChanged(JSON.parse(result), "", new Date());
+        if ("no" === result) {
+            planDataChanged(null, qsTr("No plan data found."), new Date());
+        } else {
+            planDataChanged(JSON.parse(result), "", new Date());
+        }
     }
 
     function errorResultHandler(result) {
