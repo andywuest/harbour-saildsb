@@ -19,6 +19,7 @@ Page {
     property string row2Column1Label: ""
     property string row2Column2Label: ""
     property string row3Column1Label: ""
+    property string row3Column2Label: ""
     property bool row3Visible: false
 
     allowedOrientations: Orientation.Portrait
@@ -78,9 +79,11 @@ Page {
                 if (Functions.hasSchoolThreeRows(sailDsbSettings.schoolId)) {
                     row3Visible = true;
                     row3Column1Label = dayData.labels.row3_column1;
+                    row3Column2Label = dayData.labels.row3_column2;
                 } else {
                     row3Visible = false;
                     row3Column1Label = "";
+                    row3Column2Label = "";
                 }
             }
 
@@ -310,10 +313,16 @@ Page {
                                     width: parent.width
                                     visible: row3Visible
                                     PlanEntryColumn {
-                                        width: parent.width
+                                        width: parent.width / 3 * 1 - Theme.paddingSmall
                                         //: OverviewPage course new
                                         columnLabel: row3Column1Label
                                         columnValue: Functions.toStr(row3_column1)
+                                    }
+                                    PlanEntryColumn {
+                                        width: parent.width / 3 * 2 - Theme.paddingSmall
+                                        //: OverviewPage text
+                                        columnLabel: row3Column2Label
+                                        columnValue: Functions.toStr(row3_column2)
                                     }
                                 }
                             }

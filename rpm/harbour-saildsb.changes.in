@@ -17,6 +17,8 @@
 - fixed errors visible on console
 - fixed handling of zero standings on cover page
 - fixed errors when there is no data
+- added second column in third row
+- updated GSG Plan format
 
 * 25.04.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.2-1
 

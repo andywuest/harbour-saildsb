@@ -13,12 +13,15 @@ QMap<QString, QString> DsbMobileBackend::MAP_ROW_COLUMNS_GSG_SILLENBUCH{
     {"Stunde", "hour"},
     {"Klasse(n)", "theClass"},
     // row 1
-    {"(Fach)", "row1_column1"}, //
-    {"Art", "row1_column2"},    //
-    {"Raum", "row1_column3"},   //
+    {"(Fach)", "row1_column1"},   //
+    {"(Lehrer)", "row1_column2"}, //
+    {"Raum", "row1_column3"},     //
     // row 2
     {"Fach", "row2_column1"}, //
     {"Text", "row2_column2"}, //
+    // row 3
+    {"Vertreter", "row3_column1"},
+    {"Art", "row3_column2"},
 };
 
 QMap<QString, QString> DsbMobileBackend::MAP_ROW_COLUMNS_RS_HUERTH{
@@ -151,7 +154,7 @@ void DsbMobileBackend::processGetPlansResult(QNetworkReply *reply) {
   }
 
   if (planUrls.isEmpty()) {
-      emit plansAvailable("no");
+    emit plansAvailable("no");
   }
 }
 

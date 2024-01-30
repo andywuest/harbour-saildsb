@@ -56,28 +56,32 @@ void DsbParserTests::testParsePlanToJson() {
   QByteArray data = readFileData("plan.html");
   QVERIFY2(data.length() > 0, "Testfile not found!");
 
-  const QJsonObject jsonPlanObject = dsbParser->parseHtmlToJson(QString(data), MAP_ROW_COLUMNS_GSG_SILLENBUCH);
+  const QJsonObject jsonPlanObject =
+      dsbParser->parseHtmlToJson(QString(data), MAP_ROW_COLUMNS_GSG_SILLENBUCH);
   QCOMPARE(jsonPlanObject["data"].isArray(), true);
   QCOMPARE(jsonPlanObject["date"].isString(), true);
   QCOMPARE(jsonPlanObject["title"].isString(), true);
 
   const QString planDateString = jsonPlanObject["dateString"].toString();
-  QCOMPARE(planDateString, "25.10.2022 Dienstag, Woche A");
+  QCOMPARE(planDateString, "30.1.2024 Dienstag, Woche A");
 
   const QString planDate = jsonPlanObject["date"].toString();
-  QCOMPARE(planDate, "25.10.2022");
+  QCOMPARE(planDate, "30.01.2024");
 
   const QString title = jsonPlanObject["title"].toString();
   QCOMPARE(title, "GESCHW.-SCHOLL-GYM STUTTGART");
 
   const QJsonArray planData = jsonPlanObject["data"].toArray();
+  qDebug() << planData;
   QCOMPARE(planData.size(), 3);
-  QCOMPARE(planData.at(0).toObject().value("theClass"), "7a");
-  QCOMPARE(planData.at(0).toObject().value("row1_column1"), "BK");
-  QCOMPARE(planData.at(0).toObject().value("hour"), "2");
-  QCOMPARE(planData.at(0).toObject().value("row2_column1"), "Geo");
-  QCOMPARE(planData.at(0).toObject().value("row1_column3"), "123");
-  QCOMPARE(planData.at(0).toObject().value("row1_column2"), "Verlegung");
+  QCOMPARE(planData.at(0).toObject().value("theClass"), "5a");
+  QCOMPARE(planData.at(0).toObject().value("hour"), "7");
+  QCOMPARE(planData.at(0).toObject().value("row1_column1"), "KLS");
+  QCOMPARE(planData.at(0).toObject().value("row1_column2"), "Entfall");
+  QCOMPARE(planData.at(0).toObject().value("row1_column3"), "---");
+  QCOMPARE(planData.at(0).toObject().value("row2_column1"), "---");
+  QCOMPARE(planData.at(0).toObject().value("row2_column2"), "");
+  QCOMPARE(planData.at(0).toObject().value("row3_column1"), "");
 }
 
 void DsbParserTests::testExtractTableColumns() {

@@ -133,6 +133,9 @@ DsbParser::parseHtmlToJson(const QString &planInHtml,
     if (line.indexOf("<th") != -1) {
       headlineList = extractTableColumns(line);
       continue;
+    } else if (line.indexOf("inline_header") != -1) {
+      qDebug() << "skipping inline header";
+      continue;
     } else if (line.isEmpty()) {
       continue;
     }
@@ -147,7 +150,8 @@ DsbParser::parseHtmlToJson(const QString &planInHtml,
 
     const QStringList splitList = tokenLine.split("|");
     QJsonObject entry;
-    entry.insert("row3_column1", ""); // insert elements that do not all schools have - so all entries are there
+    entry.insert("row3_column1", ""); // insert elements that do not all schools
+                                      // have - so all entries are there
 
     for (int i = 0; i < splitList.length(); i++) {
       mapFieldToJsonObject(i, schoolLabelMap, headlineList, &entry, splitList);
