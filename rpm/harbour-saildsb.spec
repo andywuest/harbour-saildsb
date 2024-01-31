@@ -9,7 +9,7 @@ Name:       harbour-saildsb
 # << macros
 
 Summary:    My Sailfish OS Application
-Version:    0.2.3
+Version:    0.2.4
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE

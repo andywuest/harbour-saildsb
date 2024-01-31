@@ -12,7 +12,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* xx.xx.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.3-1
+* xx.xx.2023 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.4-1
+
+* 31.01.2024 Andreas Wüst <andreas.wuest.freelancer@gmail.com> 0.2.3-1
 
 - fixed errors visible on console
 - fixed handling of zero standings on cover page
