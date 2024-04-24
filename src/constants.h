@@ -17,4 +17,7 @@ const char URL_LOGIN[] =
 const char URL_TIMETABLES[] =
     "https://mobileapi.dsbcontrol.de/dsbtimetables?authid=%1"; // authToken
 
+const char URL_NEWS[] =
+    "https://mobileapi.dsbcontrol.de/newstab?authid=%1"; // authToken
+
 #endif // CONSTANTS_H

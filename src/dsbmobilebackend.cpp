@@ -76,6 +76,10 @@ void DsbMobileBackend::getPlans(const QString &authToken, const int schoolId) {
   executeGetPlans(QUrl(QString(URL_TIMETABLES).arg(authToken)));
 }
 
+void DsbMobileBackend::getNews(const QString &authToken) {
+  executeGetNews(QUrl(QString(URL_NEWS).arg(authToken)));
+}
+
 void DsbMobileBackend::executeGetAuthToken(const QUrl &url) {
   qDebug() << "DsbMobileBackend::executeGetAuthToken " << url;
 
@@ -94,6 +98,16 @@ void DsbMobileBackend::executeGetPlans(const QUrl &url) {
 
   connectErrorSlot(reply);
   connect(reply, SIGNAL(finished()), this, SLOT(handleGetPlansFinished()));
+}
+
+void DsbMobileBackend::executeGetNews(const QUrl &url) {
+  qDebug() << "DsbMobileBackend::executeGetNews " << url;
+
+  QNetworkRequest request = prepareNetworkRequest(url, true);
+  QNetworkReply *reply = networkAccessManager->get(request);
+
+  connectErrorSlot(reply);
+  connect(reply, SIGNAL(finished()), this, SLOT(handleGetNewsFinished()));
 }
 
 void DsbMobileBackend::handleGetAuthTokenFinished() {
@@ -116,6 +130,20 @@ void DsbMobileBackend::handleGetPlansFinished() {
   }
 
   processGetPlansResult(reply);
+}
+
+void DsbMobileBackend::handleGetNewsFinished() {
+  qDebug() << "DsbMobileBackend::handleGetNewsFinished";
+  QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+  reply->deleteLater();
+  if (reply->error() != QNetworkReply::NoError) {
+    return;
+  }
+
+  QByteArray responseData = reply->readAll();
+  QString result = QString(responseData);
+
+  emit newsAvailable(result);
 }
 
 void DsbMobileBackend::processGetAuthTokenResult(QNetworkReply *reply) {

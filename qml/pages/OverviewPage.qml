@@ -130,7 +130,7 @@ Page {
                 onClicked: {
                     var settingsPage = pageStack.push(Qt.resolvedUrl("SettingsPage.qml"));
                     settingsPage.applyChangedFilter.connect(addPlanDataToModel);
-                    settingsPage.crendentialsChanged.connect(receiveCredentialsChanged);
+                    settingsPage.credentialsChanged.connect(receiveCredentialsChanged);
                 }
             }
             MenuItem {

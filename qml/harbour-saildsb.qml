@@ -19,6 +19,7 @@ ApplicationWindow
         Functions.log("[ApplicationWindow] connect - slots");
         dsbMobileBackend.authTokenAvailable.connect(authTokenResultHandler);
         dsbMobileBackend.plansAvailable.connect(plansResultHandler);
+        dsbMobileBackend.newsAvailable.connect(newsResultHandler);
         dsbMobileBackend.requestError.connect(errorResultHandler);
     }
 
@@ -26,6 +27,7 @@ ApplicationWindow
         Functions.log("[ApplicationWindow] disconnect - slots");
         dsbMobileBackend.authTokenAvailable.disconnect(authTokenResultHandler);
         dsbMobileBackend.plansAvailable.disconnect(plansResultHandler);
+        dsbMobileBackend.newsAvailable.disconnect(newsResultHandler);
         dsbMobileBackend.requestError.disconnect(errorResultHandler);
     }
 
@@ -36,6 +38,11 @@ ApplicationWindow
         } else {
             planDataChanged(JSON.parse(result), "", new Date());
         }
+        dsbMobileBackend.getNews(authToken);
+    }
+
+    function newsResultHandler(result) {
+        Functions.log("[ApplicationWindow] news data received - " + result);
     }
 
     function errorResultHandler(result) {
