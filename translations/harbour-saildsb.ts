@@ -73,7 +73,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hour: %1</source>
+        <source>Plans</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>News</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -81,16 +85,23 @@
         <extracomment>OverviewPage settings menu item</extracomment>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>No stand-in</source>
-        <translation type="unfinished"></translation>
-    </message>
+</context>
+<context>
+    <name>PlansView</name>
     <message>
         <source>Plans</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please provide valid credentials via the Settings to see the plans.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stand-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hour: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -73,25 +73,36 @@
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <source>Hour: %1</source>
-        <translation>Stunde: %1</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <extracomment>OverviewPage settings menu item</extracomment>
-        <translation>Aktualisieren</translation>
-    </message>
-    <message>
-        <source>No stand-in</source>
-        <translation>Keine Vertretungen</translation>
-    </message>
-    <message>
         <source>Plans</source>
         <translation>Pläne</translation>
     </message>
     <message>
+        <source>News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <extracomment>OverviewPage settings menu item</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PlansView</name>
+    <message>
+        <source>Plans</source>
+        <translation type="unfinished">Pläne</translation>
+    </message>
+    <message>
         <source>Please provide valid credentials via the Settings to see the plans.</source>
-        <translation>Bitte konfigurieren Sie gültige Zugangsdaten in den Einstellungen um die Pläne anzuzeigen.</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stand-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hour: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -14,6 +14,7 @@ ApplicationWindow
     property string authToken: "";
 
     signal planDataChanged(var planData, string error, date lastUpdate)
+    signal loadingStateChanged(bool isLoading);
 
     function connectSlots() {
         Functions.log("[ApplicationWindow] connect - slots");
@@ -43,11 +44,13 @@ ApplicationWindow
 
     function newsResultHandler(result) {
         Functions.log("[ApplicationWindow] news data received - " + result);
+        loadingStateChanged(false);
     }
 
     function errorResultHandler(result) {
         Functions.log("[ApplicationWindow] - result error : " + result);
         planDataChanged(null, result, new Date());
+        loadingStateChanged(false);
     }
 
     function hasCredentials() {
@@ -59,6 +62,7 @@ ApplicationWindow
         disconnectSlots();
         connectSlots();
         if (hasCredentials()) {
+            loadingStateChanged(true);
             dsbMobileBackend.getAuthToken(sailDsbSettings.userName, sailDsbSettings.password);
          } else {
             planDataChanged({}, qsTr("No credentials configured."), new Date());

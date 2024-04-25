@@ -150,8 +150,9 @@ DsbParser::parseHtmlToJson(const QString &planInHtml,
 
     const QStringList splitList = tokenLine.split("|");
     QJsonObject entry;
-    entry.insert("row3_column1", ""); // insert elements that do not all schools
-                                      // have - so all entries are there
+    // insert elements that do not all schools have - so all entries are there
+    entry.insert("row1_column2", "");
+    entry.insert("row3_column1", "");
 
     for (int i = 0; i < splitList.length(); i++) {
       mapFieldToJsonObject(i, schoolLabelMap, headlineList, &entry, splitList);
