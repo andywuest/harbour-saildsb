@@ -61,6 +61,17 @@
     </message>
 </context>
 <context>
+    <name>NewsView</name>
+    <message>
+        <source>News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please provide valid credentials via the Settings to see the news.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OverviewPage</name>
     <message>
         <source>About</source>
@@ -150,6 +161,10 @@
     <message>
         <source>No plan data found.</source>
         <translation>Keine Pläne gefunden.</translation>
+    </message>
+    <message>
+        <source>No news data found.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

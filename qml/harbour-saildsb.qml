@@ -14,6 +14,7 @@ ApplicationWindow
     property string authToken: "";
 
     signal planDataChanged(var planData, string error, date lastUpdate)
+    signal newsDataChanged(var newsData, string error, date lastUpdate)
     signal loadingStateChanged(bool isLoading);
 
     function connectSlots() {
@@ -44,7 +45,11 @@ ApplicationWindow
 
     function newsResultHandler(result) {
         Functions.log("[ApplicationWindow] news data received - " + result);
-        loadingStateChanged(false);
+        if ("no" === result) {
+            newsDataChanged(null, qsTr("No news data found."), new Date());
+        } else {
+            newsDataChanged(JSON.parse(result), "", new Date());
+        }
     }
 
     function errorResultHandler(result) {

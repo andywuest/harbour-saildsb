@@ -142,8 +142,14 @@ void DsbMobileBackend::handleGetNewsFinished() {
 
   QByteArray responseData = reply->readAll();
   QString result = QString(responseData);
+  QString demoResult = QString("[{\"Id\":\"650131f9-0385-4be9-910d-90bbfc18763c\",\"Date\":\"31.03.2020 17:12\",\"Title\":\"Speisekarte\",\"Detail\":\"Den aktuellen Speiseplan findet ihr unter Plaene hier in der App.\n\",\"Tags\":\"\",\"ConType\":5,\"Prio\":0,\"Index\":0,\"Childs\":[],\"Preview\":\"\"},{\"Id\":\"5d44ead4-5a25-48a9-95a6-2e94e31e86be\",\"Date\":\"31.03.2020 17:10\",\"Title\":\"Aushänge\",\"Detail\":\"Unter den Aushängen hier in der DSBmobile App könnt ihr unsere neuesten Aktionen nachschauen.\n\",\"Tags\":\"\",\"ConType\":5,\"Prio\":0,\"Index\":0,\"Childs\":[],\"Preview\":\"\"},{\"Id\":\"1e40a992-b25b-4972-bc77-d30ade9b4c15\",\"Date\":\"31.03.2020 17:11\",\"Title\":\"Schulschließung\",\"Detail\":\"Ab kommenden Montag wird die Schule aufgrund einer Ansteckungsgefahr vorübergehend geschlossen. Wir werden euch über die App sowie über die schul.cloud auf dem Laufenden halten!\n\",\"Tags\":\"\",\"ConType\":5,\"Prio\":0,\"Index\":0,\"Childs\":[],\"Preview\":\"\"}]");
 
-  emit newsAvailable(result);
+  DsbParser *dsbParser = new DsbParser();
+
+  QJsonDocument documentResult = dsbParser->parseNews(demoResult);
+
+  emit newsAvailable(QString(documentResult.toJson()));
+//  emit newsAvailable(result);
 }
 
 void DsbMobileBackend::processGetAuthTokenResult(QNetworkReply *reply) {
