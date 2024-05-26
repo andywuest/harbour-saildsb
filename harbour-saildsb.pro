@@ -35,6 +35,7 @@ DISTFILES += qml/harbour-saildsb.qml \
     qml/pages/AboutPage.qml \
     qml/pages/OverviewPage.qml \
     qml/pages/SettingsPage.qml \
+    qml/components/NewsDetailsPage.qml \
     qml/pages/icons/github.svg \
     qml/pages/icons/paypal.svg \
     rpm/harbour-saildsb.changes.in \

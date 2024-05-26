@@ -1,5 +1,4 @@
-import QtQuick 2.2
-import QtQuick.LocalStorage 2.0
+import QtQuick 2.6
 import Sailfish.Silica 1.0
 
 // QTBUG-34418
@@ -101,25 +100,53 @@ SilicaFlickable {
                     Column {
                         id: newsItemColumn
                         width: parent.width - (2 * Theme.horizontalPageMargin)
-                        height: headlineLabel.height + dateTimeLabel.height + Theme.paddingMedium
+                        height: firstRow.height + secondRow.height + Theme.paddingMedium
                         spacing: Theme.paddingSmall
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
 
-                        Label {
-                            id: headlineLabel
-                            text: date
-                            truncationMode: TruncationMode.Fade
-                            font.pixelSize: Theme.fontSizeSmall
+                        Row {
+                            id: firstRow
                             width: parent.width
-                            height: Theme.fontSizeSmall
+                            height: Theme.fontSizeSmall + Theme.paddingMedium
+
+                            Label {
+                                id: titleLabel
+                                width: parent.width * 6 / 10
+                                text: title
+                                color: Theme.primaryColor
+                                font.pixelSize: Theme.fontSizeSmall
+                                font.bold: true
+                                horizontalAlignment: Text.AlignLeft
+                            }
+
+                            Label {
+                                id: dateLabel
+                                width: parent.width * 4 / 10
+                                text: date
+                                truncationMode: TruncationMode.Fade
+                                color: Theme.highlightColor
+                                font.pixelSize: Theme.fontSizeSmall
+                                horizontalAlignment: Text.AlignRight
+                            }
                         }
-                        Label {
-                            id: dateTimeLabel
-                            text: title
-                            font.pixelSize: Theme.fontSizeTiny
+
+                        Row {
+                            id: secondRow
                             width: parent.width
-                            height: Theme.fontSizeTiny
+                            height: (Theme.fontSizeSmall + Theme.paddingMedium) * 3 - Theme.paddingMedium
+
+                            Text {
+                                id: detailText
+                                text: detail
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.primaryColor
+                                width: parent.width
+                                height: Theme.fontSizeSmall
+                                maximumLineCount: 3
+
+                                wrapMode: Text.Wrap
+                            }
                         }
                     }
 
@@ -137,14 +164,12 @@ SilicaFlickable {
                 onClicked: {
                     Functions.log("[NewsView.onClicked] - index number clicked : " + index);
                     var selectedItem = newsEntriesListView.model.get(index)
-//                    pageStack.push(Qt.resolvedUrl("../pages/NewsPage.qml"), {
-//                                       newsItem: selectedItem
-//                                   });
+                    pageStack.push(Qt.resolvedUrl("../pages/NewsDetailsPage.qml"), {
+                                       newsItem: selectedItem
+                                   });
                 }
             }
-
         }
-
     }
 
     VerticalScrollDecorator {

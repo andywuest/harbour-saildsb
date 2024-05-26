@@ -61,6 +61,14 @@
     </message>
 </context>
 <context>
+    <name>NewsDetailsPage</name>
+    <message>
+        <source>News Details</source>
+        <extracomment>NewsDetailsPage incident page header</extracomment>
+        <translation>Nachrichten Details</translation>
+    </message>
+</context>
+<context>
     <name>NewsView</name>
     <message>
         <source>News</source>
