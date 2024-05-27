@@ -16,6 +16,7 @@ TARGET = DsbParserTests
 
 DISTFILES += \
     testdata/plan.html \
+    testdata/news.json \
     testdata/timetable.json
 
 DEFINES += UNIT_TEST

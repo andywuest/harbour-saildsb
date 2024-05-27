@@ -34,6 +34,19 @@ QMap<QString, QString> MAP_ROW_COLUMNS_GSG_SILLENBUCH{
     {"Text", "row2_column2"}, //
 };
 
+void DsbParserTests::testParseNews() {
+  QByteArray data = readFileData("news.json");
+  QVERIFY2(data.length() > 0, "Testfile news.json not found!");
+
+  const QJsonDocument jsonDocument = dsbParser->parseNews(QString(data));
+  QJsonArray result = jsonDocument.array();
+  QCOMPARE(result.size(), 3);
+  QCOMPARE(result.at(0)["date"], "31.03.2020 17:12");
+  QCOMPARE(result.at(0)["title"], "Speisekarte");
+  QCOMPARE(result.at(0)["detail"],
+           "Den aktuellen Speiseplan findet ihr unter Plaene.");
+}
+
 void DsbParserTests::testParseTimetable() {
   QByteArray data = readFileData("timetable.json");
   QVERIFY2(data.length() > 0, "Testfile not found!");

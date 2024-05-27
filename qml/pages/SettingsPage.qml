@@ -12,7 +12,7 @@ import "../js/constants.js" as Constants
 Page {
     id: settingsPage
     signal applyChangedFilter()
-    signal crendentialsChanged()
+    signal credentialsChanged()
 
     onStatusChanged: {
         if (status === PageStatus.Deactivating) {
@@ -27,7 +27,7 @@ Page {
             sailDsbSettings.sync();
             if (credentialsChanged) {
                 Functions.log("[SettingsPage] Credentials have changed");
-                crendentialsChanged();
+                credentialsChanged();
             } else if (filterChanged) {
                 Functions.log("[SettingsPage] Filter has changed to " + filterTextField.text);
                 applyChangedFilter();

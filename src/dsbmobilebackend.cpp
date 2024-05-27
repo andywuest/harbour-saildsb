@@ -76,6 +76,10 @@ void DsbMobileBackend::getPlans(const QString &authToken, const int schoolId) {
   executeGetPlans(QUrl(QString(URL_TIMETABLES).arg(authToken)));
 }
 
+void DsbMobileBackend::getNews(const QString &authToken) {
+  executeGetNews(QUrl(QString(URL_NEWS).arg(authToken)));
+}
+
 void DsbMobileBackend::executeGetAuthToken(const QUrl &url) {
   qDebug() << "DsbMobileBackend::executeGetAuthToken " << url;
 
@@ -94,6 +98,16 @@ void DsbMobileBackend::executeGetPlans(const QUrl &url) {
 
   connectErrorSlot(reply);
   connect(reply, SIGNAL(finished()), this, SLOT(handleGetPlansFinished()));
+}
+
+void DsbMobileBackend::executeGetNews(const QUrl &url) {
+  qDebug() << "DsbMobileBackend::executeGetNews " << url;
+
+  QNetworkRequest request = prepareNetworkRequest(url, true);
+  QNetworkReply *reply = networkAccessManager->get(request);
+
+  connectErrorSlot(reply);
+  connect(reply, SIGNAL(finished()), this, SLOT(handleGetNewsFinished()));
 }
 
 void DsbMobileBackend::handleGetAuthTokenFinished() {
@@ -116,6 +130,44 @@ void DsbMobileBackend::handleGetPlansFinished() {
   }
 
   processGetPlansResult(reply);
+}
+
+void DsbMobileBackend::handleGetNewsFinished() {
+  qDebug() << "DsbMobileBackend::handleGetNewsFinished";
+  QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+  reply->deleteLater();
+  if (reply->error() != QNetworkReply::NoError) {
+    return;
+  }
+
+  DsbParser *dsbParser = new DsbParser();
+
+  QByteArray responseData = reply->readAll();
+  QString result = QString(responseData);
+  //  QString result =
+  //      QString("[{\"Id\":\"650131f9-0385-4be9-910d-90bbfc18763c\",\"Date\":\"31."
+  //              "03.2020 17:12\",\"Title\":\"Speisekarte\",\"Detail\":\"Den "
+  //              "aktuellen Speiseplan findet ihr unter Plaene hier in der "
+  //              "App.\n\",\"Tags\":\"\",\"ConType\":5,\"Prio\":0,\"Index\":0,"
+  //              "\"Childs\":[],\"Preview\":\"\"},{\"Id\":\"5d44ead4-5a25-48a9-"
+  //              "95a6-2e94e31e86be\",\"Date\":\"31.03.2020 "
+  //              "17:10\",\"Title\":\"Aushänge\",\"Detail\":\"Unter den
+  //              Aushängen " "hier in der DSBmobile App könnt ihr unsere
+  //              neuesten Aktionen "
+  //              "nachschauen.\n\",\"Tags\":\"\",\"ConType\":5,\"Prio\":0,"
+  //              "\"Index\":0,\"Childs\":[],\"Preview\":\"\"},{\"Id\":\"1e40a992-"
+  //              "b25b-4972-bc77-d30ade9b4c15\",\"Date\":\"31.03.2020 "
+  //              "17:11\",\"Title\":\"Schulschließung\",\"Detail\":\"Ab
+  //              kommenden " "Montag wird die Schule aufgrund einer
+  //              Ansteckungsgefahr " "vorübergehend geschlossen. Wir werden
+  //              euch über die App sowie " "über die schul.cloud auf dem
+  //              Laufenden "
+  //              "halten!\n\",\"Tags\":\"\",\"ConType\":5,\"Prio\":0,\"Index\":0,"
+  //              "\"Childs\":[],\"Preview\":\"\"}]");
+  QJsonDocument documentResult = dsbParser->parseNews(result);
+  emit newsAvailable(QString(documentResult.toJson()));
+
+  // emit newsAvailable(result);
 }
 
 void DsbMobileBackend::processGetAuthTokenResult(QNetworkReply *reply) {

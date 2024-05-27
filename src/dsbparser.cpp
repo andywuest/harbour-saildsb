@@ -12,6 +12,26 @@
 
 DsbParser::DsbParser() {}
 
+QJsonDocument DsbParser::parseNews(const QString &newsJson) {
+  const QJsonArray rootArray =
+      QJsonDocument::fromJson(newsJson.toUtf8()).array();
+
+  QJsonDocument resultDocument;
+  QJsonArray resultArray;
+
+  foreach (const QJsonValue &newsObject, rootArray) {
+    const QJsonObject newsEntry = newsObject.toObject();
+    QJsonObject newsTargetObject;
+    newsTargetObject.insert("date", newsEntry.value("Date"));
+    newsTargetObject.insert("title", newsEntry.value("Title"));
+    newsTargetObject.insert("detail", newsEntry.value("Detail"));
+    resultArray.push_back(newsTargetObject);
+  }
+
+  resultDocument.setArray(resultArray);
+  return resultDocument;
+}
+
 QList<QString> DsbParser::parseTimetable(const QString &timetable) {
   const QJsonArray rootArray =
       QJsonDocument::fromJson(timetable.toUtf8()).array();
@@ -150,8 +170,9 @@ DsbParser::parseHtmlToJson(const QString &planInHtml,
 
     const QStringList splitList = tokenLine.split("|");
     QJsonObject entry;
-    entry.insert("row3_column1", ""); // insert elements that do not all schools
-                                      // have - so all entries are there
+    // insert elements that do not all schools have - so all entries are there
+    entry.insert("row1_column2", "");
+    entry.insert("row3_column1", "");
 
     for (int i = 0; i < splitList.length(); i++) {
       mapFieldToJsonObject(i, schoolLabelMap, headlineList, &entry, splitList);

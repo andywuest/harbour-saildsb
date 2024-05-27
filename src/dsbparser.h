@@ -13,6 +13,7 @@ public:
   QJsonObject parseHtmlToJson(const QString &planInHtml,
                               const QMap<QString, QString> schoolLabelMap);
   QList<QString> parseTimetable(const QString &timetable);
+  QJsonDocument parseNews(const QString &newsJson);
 
 protected:
   QList<QString> extractPlanLines(QString planTableData);

@@ -61,6 +61,29 @@
     </message>
 </context>
 <context>
+    <name>NewsDetailsPage</name>
+    <message>
+        <source>News Details</source>
+        <extracomment>NewsDetailsPage incident page header</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewsView</name>
+    <message>
+        <source>News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please provide valid credentials via the Settings to see the news.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No news available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OverviewPage</name>
     <message>
         <source>About</source>
@@ -73,7 +96,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hour: %1</source>
+        <source>Plans</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>News</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -81,16 +108,23 @@
         <extracomment>OverviewPage settings menu item</extracomment>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>No stand-in</source>
-        <translation type="unfinished"></translation>
-    </message>
+</context>
+<context>
+    <name>PlansView</name>
     <message>
         <source>Plans</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please provide valid credentials via the Settings to see the plans.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No stand-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hour: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -139,6 +173,10 @@
     <message>
         <source>No plan data found.</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>No news data found.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

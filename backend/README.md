@@ -29,8 +29,8 @@ https://mobileapi.dsbcontrol.de/authid?user=194962&password=plan&bundleid=de.hei
 
 2adb15e3-8e4d-4102-ae28-2d5cad09bbfd
 
-curl https://mobileapi.dsbcontrol.de/dsbtimetables\?authid\=2adb15e3-8e4d-4102-ae28-2d5cad09bbfd
-
+curl -H "Accept: application/json" https://mobileapi.dsbcontrol.de/dsbtimetables\?authid\=2adb15e3-8e4d-4102-ae28-2d5cad09bbfd
+curl -H "Accept: application/json" https://mobileapi.dsbcontrol.de/newstab\?authid\=2adb15e3-8e4d-4102-ae28-2d5cad09bbfd
 
 https://mobileapi.dsbcontrol.de/dsbtimetables?authid=2adb15e3-8e4d-4102-ae28-2d5cad09bbfd
 https://mobileapi.dsbcontrol.de/dsbdocuments?authid=2adb15e3-8e4d-4102-ae28-2d5cad09bbfd
@@ -91,3 +91,5 @@ https://mobileapi.dsbcontrol.de/newstab?authid=2adb15e3-8e4d-4102-ae28-2d5cad09b
 ]
 
 
+
+[{"Id":"ad6a35d5-f333-41a8-8e05-1ebebcaf3baa","Date":"17.04.2024 07:00","Title":"JS 1","Detail":"JS 1: Am kommenden Montag (pädagogischer Tag) finden die Kurse an den KOOP-Schulen statt!\n","Tags":"","ConType":5,"Prio":0,"Index":0,"Childs":[],"Preview":""}]

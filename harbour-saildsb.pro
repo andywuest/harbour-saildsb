@@ -19,19 +19,23 @@ SOURCES += src/harbour-saildsb.cpp
 DEFINES += VERSION_NUMBER=\\\"$$(VERSION_NUMBER)\\\"
 
 DISTFILES += qml/harbour-saildsb.qml \
+    qml/components/NewsView.qml \
     qml/components/PlanEntryColumn.qml \
+    qml/components/PlansView.qml \
     qml/components/RowSeparator.qml \
     qml/components/thirdparty/AboutDescription.qml \
     qml/components/thirdparty/AboutIconLabel.qml \
     qml/components/thirdparty/LoadingIndicator.qml \
     qml/components/thirdparty/AppNotification.qml \
     qml/components/thirdparty/AppNotificationItem.qml \
+    qml/components/thirdparty/NavigationRowButton.qml \
     qml/cover/CoverPage.qml \
     qml/js/constants.js \
     qml/js/functions.js \
     qml/pages/AboutPage.qml \
     qml/pages/OverviewPage.qml \
     qml/pages/SettingsPage.qml \
+    qml/components/NewsDetailsPage.qml \
     qml/pages/icons/github.svg \
     qml/pages/icons/paypal.svg \
     rpm/harbour-saildsb.changes.in \

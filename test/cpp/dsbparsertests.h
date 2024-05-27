@@ -41,6 +41,7 @@ private slots:
   void testExtractTableData();
   void testMapFieldToJsonObject();
   void testGetNormalizedDateString();
+  void testParseNews();
 };
 
 #endif // DSB_PARSER_TEST_H
