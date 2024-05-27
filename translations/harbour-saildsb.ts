@@ -78,6 +78,10 @@
         <source>Please provide valid credentials via the Settings to see the news.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No news available.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OverviewPage</name>

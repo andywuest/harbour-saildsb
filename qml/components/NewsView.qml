@@ -70,6 +70,18 @@ SilicaFlickable {
             text: qsTr("Please provide valid credentials via the Settings to see the news.")
         }
 
+        Label {
+            id: noNewsLabel
+            horizontalAlignment: Text.AlignHCenter
+            x: Theme.horizontalPageMargin
+            width: parent.width - 2 * x
+            visible: (hasCredentials && newsData.length === 0) && newsViewFlickable.hasCredentials
+
+            wrapMode: Text.Wrap
+            textFormat: Text.RichText
+            text: qsTr("No news available.")
+        }
+
         SilicaListView {
             id: newsEntriesListView
 
@@ -77,7 +89,7 @@ SilicaFlickable {
             width: parent.width
             anchors.left: parent.left
             anchors.right: parent.right
-            visible: !noCredentialsLabel.visible
+            visible: (!noCredentialsLabel.visible && !noNewsLabel.visible)
 
             clip: true
 

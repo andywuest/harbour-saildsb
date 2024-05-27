@@ -13,23 +13,23 @@
 DsbParser::DsbParser() {}
 
 QJsonDocument DsbParser::parseNews(const QString &newsJson) {
-    const QJsonArray rootArray =
-        QJsonDocument::fromJson(newsJson.toUtf8()).array();
+  const QJsonArray rootArray =
+      QJsonDocument::fromJson(newsJson.toUtf8()).array();
 
-    QJsonDocument resultDocument;
-    QJsonArray resultArray;
+  QJsonDocument resultDocument;
+  QJsonArray resultArray;
 
-    foreach (const QJsonValue &newsObject, rootArray) {
-        const QJsonObject newsEntry = newsObject.toObject();
-        QJsonObject newsTargetObject;
-        newsTargetObject.insert("date", newsEntry.value("Date"));
-        newsTargetObject.insert("title", newsEntry.value("Title"));
-        newsTargetObject.insert("detail", newsEntry.value("Detail"));
-        resultArray.push_back(newsTargetObject);
-    }
+  foreach (const QJsonValue &newsObject, rootArray) {
+    const QJsonObject newsEntry = newsObject.toObject();
+    QJsonObject newsTargetObject;
+    newsTargetObject.insert("date", newsEntry.value("Date"));
+    newsTargetObject.insert("title", newsEntry.value("Title"));
+    newsTargetObject.insert("detail", newsEntry.value("Detail"));
+    resultArray.push_back(newsTargetObject);
+  }
 
-    resultDocument.setArray(resultArray);
-    return resultDocument;
+  resultDocument.setArray(resultArray);
+  return resultDocument;
 }
 
 QList<QString> DsbParser::parseTimetable(const QString &timetable) {
