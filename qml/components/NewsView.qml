@@ -48,6 +48,16 @@ SilicaFlickable {
         }
     }
 
+    function isNoNewsLabelVisible() {
+        if (newsViewFlickable.hasCredentials) {
+            if (newsData && newsData && newsData.length > 0) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     Column {
         id: column
         width: parent.width
@@ -75,7 +85,7 @@ SilicaFlickable {
             horizontalAlignment: Text.AlignHCenter
             x: Theme.horizontalPageMargin
             width: parent.width - 2 * x
-            visible: (hasCredentials && newsData.length === 0) && newsViewFlickable.hasCredentials
+            visible: isNoNewsLabelVisible()
 
             wrapMode: Text.Wrap
             textFormat: Text.RichText
