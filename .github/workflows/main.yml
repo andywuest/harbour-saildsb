@@ -13,7 +13,7 @@ env:
 jobs:
   build-test:
     name: Build & Run tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v2                                 # checkout the repo
@@ -83,7 +83,7 @@ jobs:
           sudo cp -r RPMS/*.rpm /share/output"
 
       - name: Upload build result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: output-rpms
           path: output
